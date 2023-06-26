@@ -1,12 +1,12 @@
 import React from "react";
 import Navbar from "./Components/Navbar/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Overview, Stats, Projects, Chat, Calendar, Settings } from "./layout";
+import { Overview, Stats, Projects, Chat, Calendar, Settings } from "./content";
 
 function App() {
   return (
     <Router>
-      <div className="h-screen flex items-center justify-start">
+      <div className="flex items-center justify-start">
         <Navbar />
         <Routes>
           <Route path="/Overview" element={<Overview />} />
@@ -16,7 +16,6 @@ function App() {
           <Route path="/Calendar" element={<Calendar />} />
           <Route path="/Settings" element={<Settings />} />
         </Routes>
-        {/* <div>Content</div> */}
       </div>
     </Router>
   );
