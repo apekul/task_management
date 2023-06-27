@@ -1,5 +1,5 @@
-import React from "react";
-import Pattern from "./pattern";
+import React, { useState } from "react";
+import Frame from "./Frame";
 
 const todo = [
   {
@@ -34,25 +34,16 @@ const todo = [
 ];
 
 const Projects = () => {
+  const [inProgress, setInProgress] = useState([]);
+  const [complete, setComplete] = useState([]);
+
   return (
-    <div className="w-full h-screen pl-5 overflow-auto">
+    <div className="w-auto h-screen pl-5">
       <h2 className="text-2xl font-extrabold py-5">Projects</h2>
-      {/* Item1 */}
-      <div className="bg-gray-100 w-72 rounded-xl h-auto p-4 flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-bold">To do</h3>
-          <p className="bg-gray-200 px-2 rounded-md">{todo.length}</p>
-        </div>
-        <button className="w-full py-1 bg-gray-200 rounded hover:bg-gray-300">
-          +
-        </button>
-        {todo.length > 0
-          ? todo.map((value, index) => (
-              <div key={index} className="">
-                <Pattern item={value} />
-              </div>
-            ))
-          : "no items"}
+      <div className="grid grid-cols-3 gap-5 ">
+        <Frame list={todo} val="To do" />
+        <Frame list={inProgress} val="In Progress" />
+        <Frame list={complete} val="Completed" />
       </div>
     </div>
   );
