@@ -4,7 +4,7 @@ import { Droppable } from "@hello-pangea/dnd";
 
 export const Frame = ({ list, val }) => {
   return (
-    <div className="bg-gray-100 w-full h-auto rounded-md p-4 ">
+    <div className="bg-gray-100 w-full h-auto rounded-md p-4 select-none">
       <div className="flex items-center justify-between">
         <h3 className="font-bold">{val}</h3>
         <p className="bg-gray-200 px-2 rounded-md">
@@ -25,7 +25,7 @@ export const Frame = ({ list, val }) => {
                   </div>
                 ))
               ) : (
-                <div className="bg-gray-100 h-0.5 "></div>
+                <div className="bg-gray-100 h-0.5 w-80"></div>
               )}
               {provided.placeholder}
             </div>

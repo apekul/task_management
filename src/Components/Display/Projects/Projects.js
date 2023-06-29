@@ -1,124 +1,58 @@
-import React, { useState } from "react";
-import Frame from "./Frame";
-import { DragDropContext } from "@hello-pangea/dnd";
-
-const sample = [
-  {
-    title: "Design",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-    id: 11,
-    follow: [{ name: "AP" }, { name: "MP" }],
-    created: "",
-    closed: "",
-  },
-  {
-    title: "BlahBlah",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-    id: 12,
-    follow: [
-      { name: "AP" },
-      { name: "MP" },
-      { name: "AD" },
-      { name: "SA" },
-      { name: "WA" },
-      { name: "WA" },
-      { name: "WA" },
-      { name: "WA" },
-      { name: "WA" },
-      { name: "WA" },
-    ],
-    created: "",
-    closed: "",
-  },
-  {
-    title: "BlahBlah",
-    description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-    id: 13,
-    follow: [
-      { name: "AP" },
-      { name: "MP" },
-      { name: "AD" },
-      { name: "SA" },
-      { name: "WA" },
-      { name: "WA" },
-      { name: "WA" },
-      { name: "WA" },
-      { name: "WA" },
-      { name: "WA" },
-    ],
-    created: "",
-    closed: "",
-  },
-];
+import React, { useState, useContext } from "react";
+import TaskList from "./TaskList";
+import { Context } from "../../../context";
+import { MdAddBox } from "react-icons/md";
+import { BiSolidTime } from "react-icons/bi";
+import { AiFillCheckCircle, AiFillExclamationCircle } from "react-icons/ai";
 
 const Projects = () => {
-  const [todo, setTodo] = useState(sample);
-  const [inProgress, setInProgress] = useState([]);
-  const [complete, setComplete] = useState([]);
+  const [projects] = useContext(Context);
 
-  const onDragEnd = (result) => {
-    const { source, destination } = result;
-    if (
-      !destination ||
-      (destination.droppableId === source.droppableId &&
-        destination.index === source.index)
-    ) {
-      return;
-    }
+  const [currentProject, setCurrentProject] = useState(projects[2]);
 
-    let add,
-      active = todo,
-      completed = complete,
-      progress = inProgress;
-
-    if (source.droppableId === "TodoList") {
-      add = active[source.index];
-      active.splice(source.index, 1);
-    } else if (source.droppableId === "InProgressList") {
-      add = progress[source.index];
-      progress.splice(source.index, 1);
-    } else {
-      add = completed[source.index];
-      completed.splice(source.index, 1);
-    }
-
-    if (destination.droppableId === "TodoList") {
-      active.splice(destination.index, 0, add);
-    } else if (destination.droppableId === "InProgressList") {
-      progress.splice(destination.index, 0, add);
-    } else {
-      completed.splice(destination.index, 0, add);
-    }
-
-    setTodo(active);
-    setInProgress(progress);
-    setComplete(completed);
+  const updateCurrentProject = (item) => {
+    setCurrentProject(item);
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className="bg-blue-200 w-full h-screen px-5 pb-5 overflow-y-auto">
-        <h2 className="text-2xl font-extrabold py-5">Projects</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 ">
-          <div>
-            <Frame list={todo} length={todo.length} val="To do" />
-          </div>
-          <div>
-            <Frame
-              list={inProgress}
-              length={inProgress.length}
-              val="In Progress"
-            />
-          </div>
-          <div>
-            <Frame list={complete} length={complete.length} val="Completed" />
-          </div>
+    <div className="w-full h-screen px-5 pb-5 overflow-y-auto bg-gray-50 pt-10">
+      <h2 className="text-2xl font-extrabold pb-2">Projects:</h2>
+
+      <div className="grid grid-flow-col auto-cols-max gap-2">
+        <div className="flex items-center justify-center text-gray-300 hover:text-gray-400 cursor-pointer">
+          <MdAddBox size="50" />
         </div>
+
+        {projects.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => updateCurrentProject(item)}
+            className={`w-52 h-20 rounded-md bg-gray-200 p-2 border-2 hover:border-black flex flex-col justify-between 
+             ${
+               currentProject.id === item.id ? "border-black" : "border-gray-50"
+             }`}
+          >
+            <p>{item.title}</p>
+            <div className="flex  items-center justify-end gap-2">
+              <div className="flex items-center justify-center ">
+                <AiFillExclamationCircle className="text-gray-600 text-xl" />
+                <span className="">{item.tasks.todos.length}</span>
+              </div>
+              <div className="flex items-center justify-center ">
+                <BiSolidTime className="text-yellow-600 text-xl" />
+                <span className="">{item.tasks.inProgress.length}</span>
+              </div>
+              <div className="flex items-center justify-center ">
+                <AiFillCheckCircle className="text-green-500 text-xl" />
+                <span className="">{item.tasks.completed.length}</span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-    </DragDropContext>
+      {/* items */}
+      <TaskList item={currentProject} />
+    </div>
   );
 };
 

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiFillPushpin } from "react-icons/ai";
-// import Draggable, { DraggableCore } from "react-draggable";
 import { Draggable } from "@hello-pangea/dnd";
 
 const Task = ({ item, index }) => {
@@ -11,7 +10,7 @@ const Task = ({ item, index }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          className="bg-white mt-2 rounded-md p-4 text-base flex flex-col gap-4 cursor-pointer border-2 border-dashed border-white hover:border-black select-none"
+          className="bg-white mt-2 w-80 rounded-md p-4 text-base flex flex-col gap-4 cursor-pointer border-2 border-dashed border-white hover:border-black select-none"
         >
           {/* Title/pin button */}
           <div className="flex items-start justify-between ">
