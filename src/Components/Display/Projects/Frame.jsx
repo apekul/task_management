@@ -4,12 +4,10 @@ import { Droppable } from "@hello-pangea/dnd";
 
 export const Frame = ({ list, val }) => {
   return (
-    <div className="bg-gray-100 w-full h-auto rounded-md p-4 select-none">
+    <div className="bg-gray-100 w-auto h-auto rounded-md p-4 select-none">
       <div className="flex items-center justify-between">
         <h3 className="font-bold">{val}</h3>
-        <p className="bg-gray-200 px-2 rounded-md">
-          {list.length > 0 ? list.length : ""}
-        </p>
+        <p className="bg-gray-200 px-2 rounded-md">{list.length}</p>
       </div>
       <button className="w-full py-1 my-2 bg-gray-200 rounded hover:bg-gray-300">
         +

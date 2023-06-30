@@ -4,10 +4,14 @@ import { DragDropContext } from "@hello-pangea/dnd";
 import { MdAddBox } from "react-icons/md";
 
 const TaskList = ({ item }) => {
-  const [todo, setTodo] = useState(item.tasks.todos);
-  const [inProgress, setInProgress] = useState(item.tasks.inProgress);
-  const [complete, setComplete] = useState(item.tasks.completed);
-
+  const [todo, setTodo] = useState(() => (item ? item.tasks.todos : []));
+  const [inProgress, setInProgress] = useState(() =>
+    item ? item.tasks.inProgress : []
+  );
+  const [complete, setComplete] = useState(() =>
+    item ? item.tasks.completed : []
+  );
+  console.log(item);
   const onDragEnd = (result) => {
     const { source, destination } = result;
     if (
@@ -48,35 +52,45 @@ const TaskList = ({ item }) => {
   };
 
   useEffect(() => {
-    setTodo(item.tasks.todos);
-    setInProgress(item.tasks.inProgress);
-    setComplete(item.tasks.completed);
+    if (item !== undefined) {
+      setTodo(item.tasks.todos);
+      setInProgress(item.tasks.inProgress);
+      setComplete(item.tasks.completed);
+    }
   }, [item]);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <h2 className="text-2xl font-extrabold py-5">{item.title}</h2>
-      <div className="flex items-start gap-2">
-        {/* Add Button */}
-        <div className="flex items-center justify-center ">
-          <div className="text-gray-300 hover:text-gray-400 cursor-pointer">
-            <MdAddBox size="50" />
+    <>
+      {item && (
+        <DragDropContext onDragEnd={onDragEnd}>
+          <h2 className="text-2xl font-extrabold py-5">
+            {item.title || "Project Name"}
+          </h2>
+          <div className="flex items-start gap-2 ">
+            {/* Add Button */}
+            <div className="flex items-center justify-center ">
+              <div className="text-gray-300 hover:text-gray-400 cursor-pointer">
+                <MdAddBox size="50" />
+              </div>
+            </div>
+            {/*  */}
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-2 ">
+              {/* <div className="grid grid-cols-4 grid-flow-col auto-cols-min gap-2"> */}
+              <div>
+                <Frame list={todo} val="To do" />
+              </div>
+              <div>
+                <Frame list={inProgress} val="In Progress" />
+              </div>
+              <div>
+                <Frame list={complete} val="Completed" />
+              </div>
+            </div>
+            <div className="w-96 h-96 bg-green-200">Settings {item.title}</div>
           </div>
-        </div>
-        {/*  */}
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-2 ">
-          <div>
-            <Frame list={todo} val="To do" />
-          </div>
-          <div>
-            <Frame list={inProgress} val="In Progress" />
-          </div>
-          <div>
-            <Frame list={complete} val="Completed" />
-          </div>
-        </div>
-      </div>
-    </DragDropContext>
+        </DragDropContext>
+      )}
+    </>
   );
 };
 
