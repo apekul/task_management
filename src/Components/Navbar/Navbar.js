@@ -1,70 +1,106 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import {
-  AiFillHome,
   AiFillFolderOpen,
-  AiFillCalendar,
-  AiFillSetting,
+  AiFillEye,
+  AiFillEyeInvisible,
 } from "react-icons/ai";
-import { IoIosStats } from "react-icons/io";
-import { BsFillChatLeftDotsFill } from "react-icons/bs";
-import { BiSolidLogOut } from "react-icons/bi";
-
-const pattern = [
-  { name: "Overview", icon: <AiFillHome /> },
-  { name: "Stats", icon: <IoIosStats /> },
-  { name: "Projects", icon: <AiFillFolderOpen /> },
-  { name: "Chat", icon: <BsFillChatLeftDotsFill /> },
-  { name: "Calendar", icon: <AiFillCalendar /> },
-];
+import { Context } from "../../context";
+import { Link } from "react-router-dom";
+import MobileNavbar from "./MobileNavbar";
+import { RiMoonFill, RiSunFill } from "react-icons/ri";
 
 const Navbar = () => {
+  const [projects, setProjects] = useContext(Context);
+  const [toggleTheme, setToggleTheme] = useState(false);
+  const [hideNav, setHideNav] = useState(false);
+
+  const addNewProject = () => {
+    let board = {
+      title: "New Board",
+      id: Math.max(...projects.map((v) => v.id)) + 1,
+    };
+
+    setProjects((prev) => [...prev, board]);
+  };
+
   return (
-    <div className="h-screen w-16 xl:w-52  xl:pl-8 flex flex-col xl:items-start items-center justify-between py-10 border-r-2 ">
-      <div className=" flex flex-col items-center xl:items-start w-full ">
-        <h1 className="font-extrabold text-xs xl:text-xl ">.logo</h1>
-        {/* Navigation */}
-        <ul className="flex flex-col pt-10 gap-3 text-gray-700 w-full ">
-          {pattern.map((value, index) => (
-            <li
-              key={index}
-              className=" hover:border-r-green-500 border-x-4 border-white cursor-pointer w-full"
-            >
-              <a
-                href={`/${value.name}`}
-                className="flex items-center gap-2 w-full py-1 justify-center xl:justify-start"
+    <>
+      <div className="hidden lg:flex h-screen w-72 flex-col items-center justify-between py-10 border-r-2 ">
+        <div className="flex flex-col gap-10">
+          <h1 className="font-extrabold text-xl">
+            <a href="/">.logo</a>
+          </h1>
+          {/* Navigation */}
+          <ul className="flex gap-2 flex-col">
+            <p className="">ALL BOARDS ({projects.length})</p>
+            {projects.map((v, i) => (
+              <li id="MenuProjects" className="cursor-pointer relative" key={i}>
+                <Link
+                  to={`/${v.title}`}
+                  state={v}
+                  className="flex items-center gap-2"
+                >
+                  <div>
+                    <AiFillFolderOpen />
+                  </div>
+                  <div className="flex items-center justify-between w-full ">
+                    <p className="flex">{v.title}</p>
+                  </div>
+                </Link>
+              </li>
+            ))}
+            {/* Create new Board */}
+            <li id="MenuProjects" className="cursor-pointer w-full relative">
+              <div
+                className="flex items-center justify-between w-full"
+                onClick={() => addNewProject()}
               >
-                <div>{value.icon}</div>
-                <p className="hidden xl:flex">{value.name}</p>
-              </a>
+                <p className="flex">+ Add New Board</p>
+              </div>
             </li>
-          ))}
-        </ul>
+          </ul>
+        </div>
+
+        {/* Light/Dark panel */}
+        <div className="flex flex-col items-center justify-center w-full gap-3">
+          <div className="flex gap-1">
+            <RiSunFill />
+            <div
+              className="bg-gray-400 w-8 rounded-full relative"
+              onClick={() => setToggleTheme(!toggleTheme)}
+            >
+              <div
+                className={`bg-gray-800 w-4 h-full rounded-full absolute top-0 transition-all ${
+                  toggleTheme ? "left-0" : "left-4"
+                }`}
+              ></div>
+            </div>
+            <RiMoonFill />
+          </div>
+          <div onClick={() => setHideNav(!hideNav)}>
+            {hideNav ? (
+              <div className="flex items-center gap-1">
+                <AiFillEyeInvisible />
+                <p>Hide sidebar</p>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1">
+                <AiFillEye />
+                <p>Show sidebar</p>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* User Settings */}
-      {/* <ul className="flex flex-col pt-10 gap-3 text-gray-700 xl:w-full"> */}
-      <ul className="flex pt-10 flex-col gap-3 text-gray-700 items-center justify-center xl:items-start w-full ">
-        <li className="hover:border-r-green-500 border-x-4 border-white cursor-pointer w-full">
-          <a
-            href="/Settings"
-            className="flex items-center gap-2 w-full py-1 justify-center xl:justify-start"
-          >
-            <AiFillSetting />
-            <p className="hidden xl:flex">Settings</p>
-          </a>
-        </li>
-
-        <li className="hover:border-r-green-500 border-x-4 border-white cursor-pointer w-full">
-          <button
-            href="/"
-            className="flex items-center gap-2 w-full py-1 justify-center xl:justify-start"
-          >
-            <BiSolidLogOut />
-            <p className="hidden xl:flex">Log out</p>
-          </button>
-        </li>
-      </ul>
-    </div>
+      {/* Mobile */}
+      <MobileNavbar
+        projects={projects}
+        addNewProject={addNewProject}
+        toggleTheme={toggleTheme}
+        setToggleTheme={setToggleTheme}
+      />
+    </>
   );
 };
 

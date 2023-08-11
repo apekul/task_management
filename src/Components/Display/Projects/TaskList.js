@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Frame from "./Frame";
 import { DragDropContext } from "@hello-pangea/dnd";
-import { MdAddBox } from "react-icons/md";
+// import { AiFillFileAdd } from "react-icons/ai";
+// import { Context } from "../../../context";
 
-const TaskList = ({ item }) => {
-  const [todo, setTodo] = useState(() => (item ? item.tasks.todos : []));
-  const [inProgress, setInProgress] = useState(() =>
-    item ? item.tasks.inProgress : []
-  );
-  const [complete, setComplete] = useState(() =>
-    item ? item.tasks.completed : []
-  );
-  console.log(item);
+const TaskList = ({ id, tasks, setTasks }) => {
+  // const [projects, setProjects, tasks, setTasks] = useContext(Context);
+
+  // const createID = () => {
+  //   if (todo.length === 0) return 1;
+  //   let largest = todo.reduce((acc, curr) => (acc.id > curr.id ? acc : curr));
+  //   return largest.id + 1;
+  // };
+
+  // Drag function
   const onDragEnd = (result) => {
     const { source, destination } = result;
     if (
@@ -23,73 +25,57 @@ const TaskList = ({ item }) => {
     }
 
     let add,
-      active = todo,
-      completed = complete,
-      progress = inProgress;
+      todo = tasks.todo.content,
+      done = tasks.done.content,
+      doing = tasks.doing.content;
 
-    if (source.droppableId === "TodoList") {
-      add = active[source.index];
-      active.splice(source.index, 1);
-    } else if (source.droppableId === "InProgressList") {
-      add = progress[source.index];
-      progress.splice(source.index, 1);
+    if (source.droppableId === "todo") {
+      add = todo[source.index];
+      todo.splice(source.index, 1);
+    } else if (source.droppableId === "doing") {
+      add = doing[source.index];
+      doing.splice(source.index, 1);
     } else {
-      add = completed[source.index];
-      completed.splice(source.index, 1);
+      add = done[source.index];
+      done.splice(source.index, 1);
     }
 
-    if (destination.droppableId === "TodoList") {
-      active.splice(destination.index, 0, add);
-    } else if (destination.droppableId === "InProgressList") {
-      progress.splice(destination.index, 0, add);
+    if (destination.droppableId === "todo") {
+      todo.splice(destination.index, 0, add);
+    } else if (destination.droppableId === "doing") {
+      doing.splice(destination.index, 0, add);
     } else {
-      completed.splice(destination.index, 0, add);
+      done.splice(destination.index, 0, add);
     }
-
-    setTodo(active);
-    setInProgress(progress);
-    setComplete(completed);
+    setTasks((prev) => ({
+      todo: { ...prev, content: todo },
+      doing: { ...prev, content: doing },
+      done: { ...prev, content: done },
+    }));
   };
-
-  useEffect(() => {
-    if (item !== undefined) {
-      setTodo(item.tasks.todos);
-      setInProgress(item.tasks.inProgress);
-      setComplete(item.tasks.completed);
-    }
-  }, [item]);
 
   return (
     <>
-      {item && (
-        <DragDropContext onDragEnd={onDragEnd}>
-          <h2 className="text-2xl font-extrabold py-5">
-            {item.title || "Project Name"}
-          </h2>
-          <div className="flex items-start gap-2 ">
-            {/* Add Button */}
-            <div className="flex items-center justify-center ">
-              <div className="text-gray-300 hover:text-gray-400 cursor-pointer">
-                <MdAddBox size="50" />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className="flex items-start gap-2 bg-red-200 px-3">
+          {/*  */}
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 w-full`}
+          >
+            {Object.keys(tasks).map((v, i) => (
+              <div key={i}>
+                <Frame
+                  tasks={tasks[v].content.filter((v) => v.projectID === id)}
+                  val={v}
+                />
               </div>
+            ))}
+            <div className="bg-gray-100 w-auto h-fit rounded-md p-4 select-none flex items-center justify-center">
+              + New Column
             </div>
-            {/*  */}
-            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-2 ">
-              {/* <div className="grid grid-cols-4 grid-flow-col auto-cols-min gap-2"> */}
-              <div>
-                <Frame list={todo} val="To do" />
-              </div>
-              <div>
-                <Frame list={inProgress} val="In Progress" />
-              </div>
-              <div>
-                <Frame list={complete} val="Completed" />
-              </div>
-            </div>
-            <div className="w-96 h-96 bg-green-200">Settings {item.title}</div>
           </div>
-        </DragDropContext>
-      )}
+        </div>
+      </DragDropContext>
     </>
   );
 };
