@@ -1,6 +1,6 @@
 import React from "react";
 import Frame from "./Frame";
-import { DragDropContext } from "@hello-pangea/dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 // import { AiFillFileAdd } from "react-icons/ai";
 // import { Context } from "../../../context";
 

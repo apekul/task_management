@@ -1,6 +1,6 @@
 import React from "react";
 import Task from "./task";
-import { Droppable } from "@hello-pangea/dnd";
+import { Droppable } from "react-beautiful-dnd";
 
 export const Frame = ({ tasks, val }) => {
   return (
@@ -11,7 +11,7 @@ export const Frame = ({ tasks, val }) => {
       </div>
 
       <div>
-        <Droppable droppableId={val}>
+        <Droppable droppableId={val} mode="virtual">
           {(provided) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
               {tasks ? (

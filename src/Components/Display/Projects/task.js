@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
-import { Draggable } from "@hello-pangea/dnd";
+import { Draggable } from "react-beautiful-dnd";
 
 const Task = ({ item, index }) => {
   const [show, setShow] = useState(false);
@@ -18,7 +18,7 @@ const Task = ({ item, index }) => {
             <p className=" font-bold">
               {item.title} [id:{item.id}]
             </p>
-            <button className=" text-2xl " onClick={() => setShow(!show)}>
+            <button className="text-2xl " onClick={() => setShow(!show)}>
               {show ? <AiFillCaretUp /> : <AiFillCaretDown />}
             </button>
           </div>
