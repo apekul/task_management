@@ -6,6 +6,3 @@
 
 ## Features
 - Drag/Drop tasks to conteners
-
-## How to run
-#### `yarn start`
