@@ -1,80 +1,121 @@
 import React from "react";
 import Frame from "./Frame";
-import { DragDropContext } from "react-beautiful-dnd";
-// import { AiFillFileAdd } from "react-icons/ai";
 // import { Context } from "../../../context";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-const TaskList = ({ id, tasks, setTasks }) => {
-  // const [projects, setProjects, tasks, setTasks] = useContext(Context);
-
-  // const createID = () => {
-  //   if (todo.length === 0) return 1;
-  //   let largest = todo.reduce((acc, curr) => (acc.id > curr.id ? acc : curr));
-  //   return largest.id + 1;
-  // };
-
+const TaskList = ({ project, setProject }) => {
+  // const [data, setData] = useContext(Context);
   // Drag function
   const onDragEnd = (result) => {
-    const { source, destination } = result;
+    const { destination, source, draggableId, type } = result;
+
+    if (!destination) {
+      return;
+    }
+
     if (
-      !destination ||
-      (destination.droppableId === source.droppableId &&
-        destination.index === source.index)
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
     ) {
       return;
     }
 
-    let add,
-      todo = tasks.todo.content,
-      done = tasks.done.content,
-      doing = tasks.doing.content;
+    if (type === "column") {
+      const newColumnOrder = Array.from(project.columnOrder);
+      newColumnOrder.splice(source.index, 1);
+      newColumnOrder.splice(destination.index, 0, draggableId);
 
-    if (source.droppableId === "todo") {
-      add = todo[source.index];
-      todo.splice(source.index, 1);
-    } else if (source.droppableId === "doing") {
-      add = doing[source.index];
-      doing.splice(source.index, 1);
-    } else {
-      add = done[source.index];
-      done.splice(source.index, 1);
+      const newData = {
+        ...project,
+        columnOrder: newColumnOrder,
+      };
+      setProject(newData);
+      return;
     }
 
-    if (destination.droppableId === "todo") {
-      todo.splice(destination.index, 0, add);
-    } else if (destination.droppableId === "doing") {
-      doing.splice(destination.index, 0, add);
-    } else {
-      done.splice(destination.index, 0, add);
+    const start = project.columns[source.droppableId];
+    const finish = project.columns[destination.droppableId];
+
+    if (start === finish) {
+      const newTaskIDs = Array.from(start.taskIDs);
+      newTaskIDs.splice(source.index, 1);
+      newTaskIDs.splice(destination.index, 0, draggableId);
+
+      const newColumn = {
+        ...start,
+        taskIDs: newTaskIDs,
+      };
+
+      const newData = {
+        ...project,
+        columns: {
+          ...project.columns,
+          [newColumn.id]: newColumn,
+        },
+      };
+
+      setProject(newData);
+      return;
     }
-    setTasks((prev) => ({
-      todo: { ...prev, content: todo },
-      doing: { ...prev, content: doing },
-      done: { ...prev, content: done },
-    }));
+
+    // Moving from one list to another
+    const startTaskIDs = Array.from(start.taskIDs);
+    startTaskIDs.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      taskIDs: startTaskIDs,
+    };
+
+    const finishTaskIDs = Array.from(finish.taskIDs);
+    finishTaskIDs.splice(destination.index, 0, draggableId);
+    const newFinish = {
+      ...finish,
+      taskIDs: finishTaskIDs,
+    };
+
+    const newData = {
+      ...project,
+      columns: {
+        ...project.columns,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish,
+      },
+    };
+    setProject(newData);
   };
 
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex items-start gap-2 bg-red-200 px-3">
-          {/*  */}
-          <div
-            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 w-full`}
-          >
-            {Object.keys(tasks).map((v, i) => (
-              <div key={i}>
-                <Frame
-                  tasks={tasks[v].content.filter((v) => v.projectID === id)}
-                  val={v}
-                />
-              </div>
-            ))}
-            <div className="bg-gray-100 w-auto h-fit rounded-md p-4 select-none flex items-center justify-center">
-              + New Column
+        <Droppable
+          droppableId="all-columns"
+          direction="horizontal"
+          type="column"
+        >
+          {(provided) => (
+            <div
+              className="select-none flex flex-wrap"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {project.columnOrder.map((columnID, index) => {
+                let column = project.columns[columnID];
+                let tasks = column.taskIDs.map(
+                  (taskId) => project.tasks[taskId]
+                );
+                return (
+                  <Frame
+                    key={column.id}
+                    column={column}
+                    tasks={tasks}
+                    index={index}
+                  />
+                );
+              })}
+              {provided.placeholder}
             </div>
-          </div>
-        </div>
+          )}
+        </Droppable>
       </DragDropContext>
     </>
   );

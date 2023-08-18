@@ -1,34 +1,46 @@
 import React from "react";
 import Task from "./task";
-import { Droppable } from "react-beautiful-dnd";
 
-export const Frame = ({ tasks, val }) => {
+import { Droppable, Draggable } from "react-beautiful-dnd";
+
+export const Frame = ({ ...props }) => {
   return (
-    <div className="bg-gray-100 w-auto h-auto rounded-md p-4 select-none">
-      <div className="flex items-center justify-between">
-        <h3 className="font-bold">{val}</h3>
-        <p className="bg-gray-200 px-2 rounded-md">{tasks.length}</p>
-      </div>
+    <Draggable draggableId={props.column.id} index={props.index}>
+      {(provided) => (
+        <div
+          className="border-2 border-black m-2 w-72 flex flex-col bg-white"
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+        >
+          <div
+            className="flex items-center justify-between p-2"
+            {...provided.dragHandleProps}
+          >
+            <h3 className="font-bold px-2">
+              {props.column.title.toUpperCase()}
+            </h3>
+            <p className="bg-gray-200 px-2 rounded-md">{props.tasks.length}</p>
+          </div>
 
-      <div>
-        <Droppable droppableId={val} mode="virtual">
-          {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              {tasks ? (
-                tasks.map((value, index) => (
-                  <div key={value.id}>
-                    <Task item={value} index={index} />
-                  </div>
-                ))
-              ) : (
-                <div className="bg-gray-100 h-0.5 w-full"></div>
-              )}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </div>
-    </div>
+          <Droppable droppableId={props.column.id} type="task">
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className={`p-2 transition-all duration-200 grow min-h-[100px] ${
+                  snapshot.isDraggingOver ? "bg-blue-200" : "bg-white"
+                }`}
+              >
+                {props.tasks.map((task, index) => (
+                  <Task key={task.id} task={task} index={index} />
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
+      )}
+    </Draggable>
   );
 };
 

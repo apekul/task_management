@@ -8,32 +8,33 @@ import { Context } from "../../context";
 import { Link } from "react-router-dom";
 import MobileNavbar from "./MobileNavbar";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
+import { template } from "../../fakeData";
 
 const Navbar = () => {
-  const [projects, setProjects] = useContext(Context);
+  const [data, setData] = useContext(Context);
   const [toggleTheme, setToggleTheme] = useState(false);
   const [hideNav, setHideNav] = useState(false);
 
   const addNewProject = () => {
-    let board = {
-      title: "New Board",
-      id: Math.max(...projects.map((v) => v.id)) + 1,
-    };
+    let newID = `project-${
+      Math.max(...Object.keys(data).map((v) => +v.split("-")[1])) + 1
+    }`;
+    let newProject = { ...template, id: newID, title: newID };
 
-    setProjects((prev) => [...prev, board]);
+    setData((prev) => ({ ...prev, [newID]: newProject }));
+    return;
   };
-
   return (
     <>
-      <div className="hidden lg:flex h-screen w-72 flex-col items-center justify-between py-10 border-r-2 ">
+      <div className="hidden lg:flex h-screen w-72 flex-col items-center justify-between py-10 border-r-2 sticky">
         <div className="flex flex-col gap-10">
           <h1 className="font-extrabold text-xl">
             <a href="/">.logo</a>
           </h1>
           {/* Navigation */}
           <ul className="flex gap-2 flex-col">
-            <p className="">ALL BOARDS ({projects.length})</p>
-            {projects.map((v, i) => (
+            <p className="">ALL BOARDS ({Object.keys(data).length})</p>
+            {Object.values(data).map((v, i) => (
               <li id="MenuProjects" className="cursor-pointer relative" key={i}>
                 <Link
                   to={`/${v.title}`}
@@ -94,12 +95,12 @@ const Navbar = () => {
       </div>
 
       {/* Mobile */}
-      <MobileNavbar
-        projects={projects}
+      {/* <MobileNavbar
+        projects={data.projects}
         addNewProject={addNewProject}
         toggleTheme={toggleTheme}
         setToggleTheme={setToggleTheme}
-      />
+      /> */}
     </>
   );
 };

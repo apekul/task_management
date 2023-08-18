@@ -2,28 +2,24 @@ import React, { useState } from "react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import { Draggable } from "react-beautiful-dnd";
 
-const Task = ({ item, index }) => {
+const Task = ({ ...props }) => {
   const [show, setShow] = useState(false);
   return (
-    <Draggable draggableId={item.id.toString()} index={index}>
-      {(provided) => (
+    <Draggable
+      key={props.task.id}
+      draggableId={props.task.id}
+      index={props.index}
+    >
+      {(provided, snapshot) => (
         <div
+          className={`border-black border p-2 mb-2 ${
+            snapshot.isDragging ? "bg-red-200" : "bg-green-200"
+          }`}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          className="bg-white mt-2 w-full rounded-md p-4 text-base flex flex-col cursor-pointer border-2 border-dashed border-white hover:border-black select-none"
         >
-          {/* Title/pin button */}
-          <div className="flex items-start justify-between">
-            <p className=" font-bold">
-              {item.title} [id:{item.id}]
-            </p>
-            <button className="text-2xl " onClick={() => setShow(!show)}>
-              {show ? <AiFillCaretUp /> : <AiFillCaretDown />}
-            </button>
-          </div>
-          {/* Description */}
-          {show && <div className="text-gray-600">{item.description}</div>}
+          {props.task.content}
         </div>
       )}
     </Draggable>
