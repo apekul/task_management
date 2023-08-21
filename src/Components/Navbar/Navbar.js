@@ -16,9 +16,14 @@ const Navbar = () => {
   const [hideNav, setHideNav] = useState(false);
 
   const addNewProject = () => {
-    let newID = `project-${
-      Math.max(...Object.keys(data).map((v) => +v.split("-")[1])) + 1
-    }`;
+    let newID;
+    if (Object.keys(data).length === 0) {
+      newID = "project-1";
+    } else {
+      newID = `project-${
+        Math.max(...Object.keys(data).map((v) => +v.split("-")[1])) + 1
+      }`;
+    }
     let newProject = { ...template, id: newID, title: newID };
 
     setData((prev) => ({ ...prev, [newID]: newProject }));
@@ -26,14 +31,16 @@ const Navbar = () => {
   };
   return (
     <>
-      <div className="hidden lg:flex h-screen w-72 flex-col items-center justify-between py-10 border-r-2 sticky">
+      <div className="hidden lg:flex h-screen w-52 flex-col items-center justify-between py-10 border-r-2 fixed">
         <div className="flex flex-col gap-10">
           <h1 className="font-extrabold text-xl">
             <a href="/">.logo</a>
           </h1>
           {/* Navigation */}
           <ul className="flex gap-2 flex-col">
-            <p className="">ALL BOARDS ({Object.keys(data).length})</p>
+            <p className="">
+              ALL BOARDS ({data ? Object.keys(data).length : 0})
+            </p>
             {Object.values(data).map((v, i) => (
               <li id="MenuProjects" className="cursor-pointer relative" key={i}>
                 <Link

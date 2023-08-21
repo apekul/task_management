@@ -11,7 +11,7 @@ const Display = () => {
 
   const location = useLocation();
   const state = location.state;
-  const [project, setProject] = useState(data[state.title]);
+  const [project, setProject] = useState(data[state.id]);
 
   const [editTitle, setEditTitle] = useState(false);
   const [title, setTitle] = useState(state.title);
@@ -65,7 +65,6 @@ const Display = () => {
     }));
     return;
   };
-  console.log(project);
 
   const changeTitle = () => {
     setEditTitle(false);
@@ -84,7 +83,7 @@ const Display = () => {
   }, [project]);
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-screen w-full ">
       <div className="border-b-2 p-5 w-full flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           {editTitle ? (
