@@ -1,20 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
 import { Context } from "../../context";
 import TaskList from "./Projects/TaskList";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
+import {
+  AiFillCheckCircle,
+  AiFillCloseCircle,
+  AiFillDelete,
+} from "react-icons/ai";
 
 const Display = () => {
   const [data, setData] = useContext(Context);
 
-  const location = useLocation();
-  const state = location.state;
-  const [project, setProject] = useState(data[state.id]);
+  const { projectID } = useParams();
 
+  console.log(projectID);
+  const [project, setProject] = useState(data[projectID]);
   const [editTitle, setEditTitle] = useState(false);
-  const [title, setTitle] = useState(state.title);
+  const [title, setTitle] = useState(project.title);
+  const [options, setOptions] = useState(false);
+
+  const navigate = useNavigate();
 
   // Add new task to TODO list
   const addTask = () => {
@@ -73,18 +80,26 @@ const Display = () => {
       [project.id]: { ...prev[project.id], title: title },
     }));
   };
+
+  const deleteProject = () => {
+    let newData = { ...data };
+    delete newData[project.id];
+    setData(newData);
+    return navigate("/");
+  };
+
   useEffect(() => {
-    setTitle(data[state.id].title);
-    setProject(data[state.id]);
-  }, [state]);
+    setTitle(data[projectID].title);
+    setProject(data[projectID]);
+  }, [projectID]);
 
   useEffect(() => {
     setData((prev) => ({ ...prev, [project.id]: project }));
   }, [project]);
 
   return (
-    <div className="h-screen w-full ">
-      <div className="border-b-2 p-5 w-full flex items-center justify-between mb-2">
+    <>
+      <div className="border-b-2 p-5 flex items-center justify-between mb-2 w-full">
         <div className="flex items-center gap-2">
           {editTitle ? (
             <>
@@ -101,7 +116,7 @@ const Display = () => {
                 className="cursor-pointer text-gray-400 hover:text-slate-800"
                 onClick={() => {
                   setEditTitle(false);
-                  setTitle(state.title);
+                  setTitle(project.title);
                 }}
               />
             </>
@@ -128,11 +143,46 @@ const Display = () => {
           >
             Add Column
           </button>
-          <BiDotsVerticalRounded />
+
+          <div className="relative">
+            <BiDotsVerticalRounded
+              className="cursor-pointer"
+              onClick={() => setOptions(!options)}
+            />
+            <div
+              className={`absolute top-10 -right-5 w-60 bg-white border-2 px-3 py-2 transition-all ${
+                options
+                  ? "opacity-100 translate-y-1"
+                  : "-translate-y-1 opacity-0"
+              }`}
+            >
+              <div className="flex flex-col items-start justify-center gap-2">
+                <div className="flex w-full items-center justify-between">
+                  <p>{project.title} Settings</p>
+                  <AiFillCloseCircle
+                    className="cursor-pointer"
+                    onClick={() => setOptions(!options)}
+                  />
+                </div>
+
+                <div className="flex items-center gap-1 w-full p-1 rounded hover:bg-gray-200 cursor-pointer">
+                  <AiFillCheckCircle />
+                  <p>Close Project</p>
+                </div>
+                <div
+                  className="flex items-center gap-1 bg-red-200 w-full p-1 rounded hover:bg-red-400 cursor-pointer"
+                  onClick={() => deleteProject()}
+                >
+                  <AiFillDelete />
+                  <p>Delete Project</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <TaskList project={project} setProject={setProject} />
-    </div>
+    </>
   );
 };
 

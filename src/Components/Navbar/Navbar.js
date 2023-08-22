@@ -5,7 +5,7 @@ import {
   AiFillEyeInvisible,
 } from "react-icons/ai";
 import { Context } from "../../context";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import MobileNavbar from "./MobileNavbar";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
 import { template } from "../../fakeData";
@@ -14,6 +14,9 @@ const Navbar = () => {
   const [data, setData] = useContext(Context);
   const [toggleTheme, setToggleTheme] = useState(false);
   const [hideNav, setHideNav] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  // console.log(location.pathname.split("/")[1]);
 
   const addNewProject = () => {
     let newID;
@@ -27,7 +30,7 @@ const Navbar = () => {
     let newProject = { ...template, id: newID, title: newID };
 
     setData((prev) => ({ ...prev, [newID]: newProject }));
-    return;
+    return navigate(`/${newID}`);
   };
   return (
     <>
@@ -38,24 +41,17 @@ const Navbar = () => {
           </h1>
           {/* Navigation */}
           <ul className="flex gap-2 flex-col">
-            <p className="">
-              ALL BOARDS ({data ? Object.keys(data).length : 0})
-            </p>
+            <p className="">ALL BOARDS ({Object.keys(data).length})</p>
             {Object.values(data).map((v, i) => (
-              <li id="MenuProjects" className="cursor-pointer relative" key={i}>
-                <Link
-                  to={`/${v.title}`}
-                  state={v}
-                  className="flex items-center gap-2"
+              <Link to={`/${v.title}`} state={v} key={i}>
+                <li
+                  id="MenuProjects"
+                  className="cursor-pointer flex items-center gap-2"
                 >
-                  <div>
-                    <AiFillFolderOpen />
-                  </div>
-                  <div className="flex items-center justify-between w-full ">
-                    <p className="flex">{v.title}</p>
-                  </div>
-                </Link>
-              </li>
+                  <AiFillFolderOpen />
+                  <p>{v.title}</p>
+                </li>
+              </Link>
             ))}
             {/* Create new Board */}
             <li id="MenuProjects" className="cursor-pointer w-full relative">
@@ -63,7 +59,7 @@ const Navbar = () => {
                 className="flex items-center justify-between w-full"
                 onClick={() => addNewProject()}
               >
-                <p className="flex">+ Add New Board</p>
+                <p>+ Add New Board</p>
               </div>
             </li>
           </ul>

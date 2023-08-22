@@ -7,8 +7,10 @@ import Dashboard from "./Components/Dashboard";
 
 import { Context } from "./context";
 
-// Store location state in localStorage???
-// Store data inside localStorage
+// Fake url handling
+// Deleting functionalities
+// More project options: close project, archive closet projects?
+// More task options: editing, additional buttons?
 
 function App() {
   const [data, setData] = useState(() => {
@@ -29,7 +31,7 @@ function App() {
       <div className="flex select-none flex-col lg:flex-row items-center justify-start bg-white text-slate-800">
         <Context.Provider value={[data, setData]}>
           <Navbar />
-          <div className="lg:ml-52 w-full">
+          <div className="lg:ml-52 w-full h-screen">
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/:projectID" element={<Display />} />

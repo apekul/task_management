@@ -27,7 +27,7 @@ export const Frame = ({ ...props }) => {
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                className={`p-2 transition-all duration-200 grow min-h-[100px] ${
+                className={`p-2 transition-all duration-200 grow min-h-fit ${
                   snapshot.isDraggingOver ? "bg-blue-200" : "bg-white"
                 }`}
               >

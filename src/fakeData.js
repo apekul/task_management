@@ -44,6 +44,7 @@ export const initialData = {
 export const template = {
   id: "",
   title: "",
+  description: "",
   tasks: {},
   columns: {
     "column-1": {
