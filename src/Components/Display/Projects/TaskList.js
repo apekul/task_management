@@ -1,6 +1,5 @@
 import React from "react";
 import Frame from "./Frame";
-// import { Context } from "../../../context";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 const TaskList = ({ project, setProject }) => {

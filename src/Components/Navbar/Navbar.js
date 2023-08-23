@@ -5,6 +5,7 @@ import {
   AiOutlineArrowRight,
   AiFillFolderAdd,
 } from "react-icons/ai";
+import { BsFillArchiveFill } from "react-icons/bs";
 import { Context } from "../../context";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import MobileNavbar from "./MobileNavbar";
@@ -20,7 +21,6 @@ const Navbar = ({ hideNav, setHideNav }) => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname.split("/")[1]);
 
   const addNewProject = () => {
     let newID;
@@ -75,7 +75,7 @@ const Navbar = ({ hideNav, setHideNav }) => {
                     <Link to={`/${v.id}`} state={v} key={i}>
                       <li
                         id="MenuProjects"
-                        className={`cursor-pointer flex items-center gap-2 px-2 py-1 my-1 border border-black ${
+                        className={`cursor-pointer flex items-center gap-2 px-2 py-1 my-1 border border-black hover:bg-gray-300 ${
                           location.pathname.split("/")[1] === v.id
                             ? "bg-red-200"
                             : "bg-white"
@@ -99,43 +99,58 @@ const Navbar = ({ hideNav, setHideNav }) => {
                     <AiFillFolderAdd />
                     <p>Add New Board</p>
                   </div>
+
+                  <div className="flex items-center gap-1 w-full text-base mt-10">
+                    <BsFillArchiveFill className="text-base" />
+                    <p>Closet Projects</p>
+                  </div>
                 </li>
               </>
             ) : (
-              <div className="relative flex flex-col gap-2 text-lg">
-                <AiFillFolderOpen
-                  onClick={() => setProjectList(!projectList)}
-                  className="cursor-pointer"
-                />
-                {projectList && (
-                  <div
-                    className="absolute top-2 left-6 bg-gray-200 flex flex-col gap-1 text-base w-36 h-96 overflow-y-auto max-h-screen rounded"
-                    ref={ref}
-                  >
-                    {Object.values(data).map((v, i) => (
-                      <Link
-                        to={`/${v.id}`}
-                        state={v}
-                        key={i}
-                        onClick={() => setProjectList(false)}
-                      >
-                        <li
-                          id="MenuProjects"
-                          className={`cursor-pointer flex items-center gap-2 px-2 py-1 border border-black ${
-                            location.pathname.split("/")[1] === v.id
-                              ? "bg-red-200"
-                              : ""
-                          }`}
+              <div className="relative flex items-center flex-col gap-4 text-lg select-none">
+                <div className="border border-black p-2 flex flex-col gap-3">
+                  <AiFillFolderOpen
+                    onClick={() => setProjectList(!projectList)}
+                    className="cursor-pointer"
+                  />
+                  {projectList && (
+                    <div
+                      className="absolute top-2 left-10 bg-gray-200 flex flex-col gap-1 text-base w-36 max-h-96 overflow-y-auto rounded"
+                      ref={ref}
+                    >
+                      {Object.values(data).map((v, i) => (
+                        <Link
+                          to={`/${v.id}`}
+                          state={v}
+                          key={i}
+                          onClick={() => setProjectList(false)}
                         >
-                          <AiFillFolderOpen />
-                          <p className="truncate w-4/5">{v.title}</p>
-                        </li>
-                      </Link>
-                    ))}
+                          <li
+                            id="MenuProjects"
+                            className={`cursor-pointer flex items-center gap-2 px-2 py-1 border border-black hover:bg-gray-300 ${
+                              location.pathname.split("/")[1] === v.id
+                                ? "bg-red-200"
+                                : ""
+                            }`}
+                          >
+                            <AiFillFolderOpen />
+                            <p className="truncate w-4/5">{v.title}</p>
+                          </li>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => addNewProject()}
+                  >
+                    <AiFillFolderAdd />
                   </div>
-                )}
-                <div className="cursor-pointer" onClick={() => addNewProject()}>
-                  <AiFillFolderAdd />
+                </div>
+
+                {/* Archive button */}
+                <div>
+                  <BsFillArchiveFill className="text-base" />
                 </div>
               </div>
             )}
