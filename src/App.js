@@ -8,7 +8,7 @@ import Dashboard from "./Components/Dashboard";
 import { Context } from "./context";
 
 // Fake url handling
-// Deleting functionalities
+// Editing task functionalities
 // More project options: close project, archive closet projects?
 // More task options: editing, additional buttons?
 
@@ -21,6 +21,7 @@ function App() {
     }
     return getStorage;
   });
+  const [hideNav, setHideNav] = useState(true);
 
   useEffect(() => {
     localStorage.setItem("ManagementData", JSON.stringify(data));
@@ -28,13 +29,20 @@ function App() {
 
   return (
     <Router>
-      <div className="flex select-none flex-col lg:flex-row items-center justify-start bg-white text-slate-800">
+      <div className="flex flex-col lg:flex-row items-center justify-start bg-white text-slate-800">
         <Context.Provider value={[data, setData]}>
-          <Navbar />
-          <div className="lg:ml-52 w-full h-screen">
+          <Navbar hideNav={hideNav} setHideNav={setHideNav} />
+          <div
+            className={`w-full h-screen transition-all ${
+              hideNav ? "lg:ml-20" : "lg:ml-52"
+            }`}
+          >
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/:projectID" element={<Display />} />
+              <Route
+                path="/:projectID"
+                element={<Display hideNav={hideNav} />}
+              />
             </Routes>
           </div>
         </Context.Provider>

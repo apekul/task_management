@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   AiFillFolderOpen,
-  AiFillEye,
-  AiFillEyeInvisible,
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiFillFolderAdd,
 } from "react-icons/ai";
 import { Context } from "../../context";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -10,13 +11,16 @@ import MobileNavbar from "./MobileNavbar";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
 import { template } from "../../fakeData";
 
-const Navbar = () => {
+const Navbar = ({ hideNav, setHideNav }) => {
   const [data, setData] = useContext(Context);
   const [toggleTheme, setToggleTheme] = useState(false);
-  const [hideNav, setHideNav] = useState(false);
+  const [projectList, setProjectList] = useState(false);
+
+  const ref = useRef();
+
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log(location.pathname.split("/")[1]);
+  console.log(location.pathname.split("/")[1]);
 
   const addNewProject = () => {
     let newID;
@@ -32,67 +36,142 @@ const Navbar = () => {
     setData((prev) => ({ ...prev, [newID]: newProject }));
     return navigate(`/${newID}`);
   };
+
+  // Handle clossing projectList sidebar menu when click outside of contener
+  useEffect(() => {
+    const handleClick = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setProjectList(false);
+      }
+    };
+
+    document.addEventListener("click", handleClick, true);
+
+    return () => {
+      document.removeEventListener("click", handleClick, true);
+    };
+  }, [ref]);
+
   return (
     <>
-      <div className="hidden lg:flex h-screen w-52 flex-col items-center justify-between py-10 border-r-2 fixed">
-        <div className="flex flex-col gap-10">
+      <div
+        className={`transition-all hidden lg:flex h-screen flex-col items-center justify-between py-6 border-r-2 fixed ${
+          hideNav ? "w-20" : "w-52"
+        }`}
+      >
+        <div
+          className={`flex flex-col gap-10 w-40 ${hideNav && "items-center"}`}
+        >
           <h1 className="font-extrabold text-xl">
             <a href="/">.logo</a>
           </h1>
           {/* Navigation */}
-          <ul className="flex gap-2 flex-col">
-            <p className="">ALL BOARDS ({Object.keys(data).length})</p>
-            {Object.values(data).map((v, i) => (
-              <Link to={`/${v.title}`} state={v} key={i}>
+          <ul className="flex gap-2 flex-col ">
+            {!hideNav ? (
+              <>
+                <p className="">ALL BOARDS ({Object.keys(data).length})</p>
+                <div className="max-h-96 overflow-y-auto">
+                  {Object.values(data).map((v, i) => (
+                    <Link to={`/${v.id}`} state={v} key={i}>
+                      <li
+                        id="MenuProjects"
+                        className={`cursor-pointer flex items-center gap-2 px-2 py-1 my-1 border border-black ${
+                          location.pathname.split("/")[1] === v.id
+                            ? "bg-red-200"
+                            : "bg-white"
+                        }`}
+                      >
+                        <AiFillFolderOpen />
+                        <p className="truncate w-4/5">{v.title}</p>
+                      </li>
+                    </Link>
+                  ))}
+                </div>
+                {/* Create new Board */}
                 <li
                   id="MenuProjects"
-                  className="cursor-pointer flex items-center gap-2"
+                  className="cursor-pointer w-full relative px-2"
                 >
-                  <AiFillFolderOpen />
-                  <p>{v.title}</p>
+                  <div
+                    className="flex items-center gap-1 w-full"
+                    onClick={() => addNewProject()}
+                  >
+                    <AiFillFolderAdd />
+                    <p>Add New Board</p>
+                  </div>
                 </li>
-              </Link>
-            ))}
-            {/* Create new Board */}
-            <li id="MenuProjects" className="cursor-pointer w-full relative">
-              <div
-                className="flex items-center justify-between w-full"
-                onClick={() => addNewProject()}
-              >
-                <p>+ Add New Board</p>
+              </>
+            ) : (
+              <div className="relative flex flex-col gap-2 text-lg">
+                <AiFillFolderOpen
+                  onClick={() => setProjectList(!projectList)}
+                  className="cursor-pointer"
+                />
+                {projectList && (
+                  <div
+                    className="absolute top-2 left-6 bg-gray-200 flex flex-col gap-1 text-base w-36 h-96 overflow-y-auto max-h-screen rounded"
+                    ref={ref}
+                  >
+                    {Object.values(data).map((v, i) => (
+                      <Link
+                        to={`/${v.id}`}
+                        state={v}
+                        key={i}
+                        onClick={() => setProjectList(false)}
+                      >
+                        <li
+                          id="MenuProjects"
+                          className={`cursor-pointer flex items-center gap-2 px-2 py-1 border border-black ${
+                            location.pathname.split("/")[1] === v.id
+                              ? "bg-red-200"
+                              : ""
+                          }`}
+                        >
+                          <AiFillFolderOpen />
+                          <p className="truncate w-4/5">{v.title}</p>
+                        </li>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                <div className="cursor-pointer" onClick={() => addNewProject()}>
+                  <AiFillFolderAdd />
+                </div>
               </div>
-            </li>
+            )}
           </ul>
         </div>
 
         {/* Light/Dark panel */}
         <div className="flex flex-col items-center justify-center w-full gap-3">
-          <div className="flex gap-1">
-            <RiSunFill />
+          {hideNav ? (
             <div
-              className="bg-gray-400 w-8 rounded-full relative"
+              className="cursor-pointer"
               onClick={() => setToggleTheme(!toggleTheme)}
             >
-              <div
-                className={`bg-gray-800 w-4 h-full rounded-full absolute top-0 transition-all ${
-                  toggleTheme ? "left-0" : "left-4"
-                }`}
-              ></div>
+              {toggleTheme ? <RiSunFill /> : <RiMoonFill />}
             </div>
-            <RiMoonFill />
-          </div>
-          <div onClick={() => setHideNav(!hideNav)}>
-            {hideNav ? (
-              <div className="flex items-center gap-1">
-                <AiFillEyeInvisible />
-                <p>Hide sidebar</p>
+          ) : (
+            <div className="flex gap-1">
+              <RiSunFill />
+              <div
+                className="bg-gray-400 w-8 rounded-full relative cursor-pointer"
+                onClick={() => setToggleTheme(!toggleTheme)}
+              >
+                <div
+                  className={`bg-gray-800 w-4 h-full rounded-full absolute top-0 transition-all ${
+                    toggleTheme ? "left-0" : "left-4"
+                  }`}
+                ></div>
               </div>
-            ) : (
-              <div className="flex items-center gap-1">
-                <AiFillEye />
-                <p>Show sidebar</p>
-              </div>
-            )}
+              <RiMoonFill />
+            </div>
+          )}
+
+          <div onClick={() => setHideNav(!hideNav)} className="cursor-pointer">
+            <div className="flex items-center gap-1">
+              {hideNav ? <AiOutlineArrowRight /> : <AiOutlineArrowLeft />}
+            </div>
           </div>
         </div>
       </div>

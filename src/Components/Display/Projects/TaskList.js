@@ -4,7 +4,6 @@ import Frame from "./Frame";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 const TaskList = ({ project, setProject }) => {
-  // const [data, setData] = useContext(Context);
   // Drag function
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;

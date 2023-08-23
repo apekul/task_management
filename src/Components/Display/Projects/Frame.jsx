@@ -8,12 +8,12 @@ export const Frame = ({ ...props }) => {
     <Draggable draggableId={props.column.id} index={props.index}>
       {(provided) => (
         <div
-          className="border-2 border-black m-2 w-72 flex flex-col bg-white"
+          className="m-2 w-72 flex flex-col rounded bg-white"
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
           <div
-            className="flex items-center justify-between p-2"
+            className="flex items-center justify-between border-black border p-2"
             {...provided.dragHandleProps}
           >
             <h3 className="font-bold px-2">
@@ -28,7 +28,7 @@ export const Frame = ({ ...props }) => {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 className={`p-2 transition-all duration-200 grow min-h-fit ${
-                  snapshot.isDraggingOver ? "bg-blue-200" : "bg-white"
+                  snapshot.isDraggingOver ? "bg-slate-400" : "bg-gray-100"
                 }`}
               >
                 {props.tasks.map((task, index) => (

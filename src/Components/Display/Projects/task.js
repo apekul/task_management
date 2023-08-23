@@ -12,14 +12,24 @@ const Task = ({ ...props }) => {
     >
       {(provided, snapshot) => (
         <div
-          className={`border-black border p-2 mb-2 ${
-            snapshot.isDragging ? "bg-red-200" : "bg-green-200"
+          className={`border-black rounded p-2 mb-2 ${
+            snapshot.isDragging
+              ? "bg-gray-200 border-dashed border-2"
+              : "bg-gray-300"
           }`}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          {props.task.content}
+          <div
+            className="flex items-center justify-between"
+            onClick={() => setShow(!show)}
+          >
+            <h3 className="font-bold">{props.task.title}</h3>
+            <p>id:{props.task.id}</p>
+          </div>
+
+          {show && <p>{props.task.content}</p>}
         </div>
       )}
     </Draggable>

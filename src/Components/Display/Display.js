@@ -15,7 +15,6 @@ const Display = () => {
 
   const { projectID } = useParams();
 
-  console.log(projectID);
   const [project, setProject] = useState(data[projectID]);
   const [editTitle, setEditTitle] = useState(false);
   const [title, setTitle] = useState(project.title);
@@ -36,7 +35,8 @@ const Display = () => {
 
     let newTask = {
       id: newID,
-      content: "new Task",
+      title: "New Task",
+      content: "New task description",
     };
 
     // Add Task
@@ -105,7 +105,7 @@ const Display = () => {
             <>
               <input
                 placeholder={title}
-                className="font-extrabold text-xl w-32 px-1"
+                className="font-extrabold text-xl w-32 px-1 truncate"
                 onChange={(e) => setTitle(e.target.value)}
               />
               <AiFillCheckCircle
@@ -122,7 +122,9 @@ const Display = () => {
             </>
           ) : (
             <>
-              <h2 className="font-extrabold text-xl ">{title}</h2>
+              <h2 className="font-extrabold text-xl truncate max-w-screen-lg">
+                {title}
+              </h2>
               <MdEdit
                 className="cursor-pointer text-gray-400 hover:text-slate-800"
                 onClick={() => setEditTitle(true)}
@@ -130,7 +132,7 @@ const Display = () => {
             </>
           )}
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 select-none">
           <button
             className="bg-gray-500 px-2 py-1 rounded text-white hover:bg-gray-700"
             onClick={() => addTask()}
@@ -158,7 +160,7 @@ const Display = () => {
             >
               <div className="flex flex-col items-start justify-center gap-2">
                 <div className="flex w-full items-center justify-between">
-                  <p>{project.title} Settings</p>
+                  <span>Settings</span>
                   <AiFillCloseCircle
                     className="cursor-pointer"
                     onClick={() => setOptions(!options)}
@@ -167,14 +169,14 @@ const Display = () => {
 
                 <div className="flex items-center gap-1 w-full p-1 rounded hover:bg-gray-200 cursor-pointer">
                   <AiFillCheckCircle />
-                  <p>Close Project</p>
+                  <p className="truncate w-4/5">Close {project.title}</p>
                 </div>
                 <div
                   className="flex items-center gap-1 bg-red-200 w-full p-1 rounded hover:bg-red-400 cursor-pointer"
                   onClick={() => deleteProject()}
                 >
-                  <AiFillDelete />
-                  <p>Delete Project</p>
+                  <AiFillDelete className="text-base" />
+                  <p className="truncate w-4/5">Delete {project.title}</p>
                 </div>
               </div>
             </div>
