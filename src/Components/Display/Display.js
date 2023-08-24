@@ -94,6 +94,10 @@ const Display = () => {
   }, [projectID]);
 
   useEffect(() => {
+    setProject(data[projectID]);
+  }, [data]);
+
+  useEffect(() => {
     setData((prev) => ({ ...prev, [project.id]: project }));
   }, [project]);
 

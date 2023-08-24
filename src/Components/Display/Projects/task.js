@@ -34,8 +34,10 @@ const Task = ({ ...props }) => {
         },
       },
     };
-    setData(copy);
     setEdit((prev) => ({ ...prev, id: "" }));
+    setData(copy);
+    // setTitle(data[edit.projectID].tasks[props.task.id].title);
+    // window.location.reload();
     return;
   };
 
@@ -44,7 +46,6 @@ const Task = ({ ...props }) => {
     setEdit({ id: "", projectID: location.pathname.split("/")[1] });
   }, [location]);
 
-  console.log(title);
   return (
     <Draggable
       key={props.task.id}
@@ -76,7 +77,7 @@ const Task = ({ ...props }) => {
                       onChange={(e) => setTitle(e.target.value)}
                     />
                   ) : (
-                    <h3 className="font-bold">{props.task.title}</h3>
+                    <h3 className="font-bold">{title}</h3>
                   )}
                   <p>/{props.task.id}</p>
                 </div>
