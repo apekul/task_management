@@ -3,12 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar/Navbar";
 import Display from "./Components/Display/Display";
 import Dashboard from "./Components/Dashboard";
-// import { initialData } from "./fakeData";
 
 import { Context } from "./context";
 
 // Fake url handling
-// Editing task functionalities
+// Task: update, delete, clone?, move to other project?
 // More project options: close project, archive closet projects?
 // More task options: editing, additional buttons?
 

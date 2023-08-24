@@ -8,7 +8,7 @@ export const Frame = ({ ...props }) => {
     <Draggable draggableId={props.column.id} index={props.index}>
       {(provided) => (
         <div
-          className="m-2 w-72 flex flex-col rounded bg-white"
+          className="m-2 w-96 flex flex-col rounded bg-white"
           {...provided.draggableProps}
           ref={provided.innerRef}
         >

@@ -92,7 +92,7 @@ const TaskList = ({ project, setProject }) => {
         >
           {(provided) => (
             <div
-              className="select-none flex flex-wrap overflow-hidden"
+              className=" flex flex-wrap overflow-hidden"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >

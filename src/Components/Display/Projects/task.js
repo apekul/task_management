@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import { Draggable } from "react-beautiful-dnd";
 import { MdEdit } from "react-icons/md";
@@ -12,15 +12,19 @@ import {
 
 const Task = ({ ...props }) => {
   const location = useLocation();
+  const textArea = useRef(null);
   const [data, setData] = useContext(Context);
   const [show, setShow] = useState(false);
   const [edit, setEdit] = useState({
     id: "",
     projectID: location.pathname.split("/")[1],
   });
-  const [title, setTitle] = useState(props.task.title);
+  const [textAreaHeight, setTextAreaHeight] = useState(1);
 
-  const updateTitle = () => {
+  const [title, setTitle] = useState(props.task.title);
+  const [content, setContent] = useState(props.task.content);
+
+  const updateTask = () => {
     let taskID = props.task.id;
     let projectID = edit.projectID;
     let copy = data;
@@ -30,18 +34,30 @@ const Task = ({ ...props }) => {
         ...copy[projectID],
         tasks: {
           ...copy[projectID].tasks,
-          [taskID]: { ...copy[projectID].tasks[taskID], title: title },
+          [taskID]: {
+            ...copy[projectID].tasks[taskID],
+            title: title,
+            content: content,
+          },
         },
       },
     };
     setEdit((prev) => ({ ...prev, id: "" }));
     setData(copy);
-    // setTitle(data[edit.projectID].tasks[props.task.id].title);
-    // window.location.reload();
     return;
   };
 
-  // console.log(location.pathname.split("/")[1]);
+  const resizeTextArea = () => {
+    textArea.current.style.height = "auto";
+    textArea.current.style.height = textArea.current.scrollHeight + "px";
+  };
+
+  useEffect(() => {
+    if (edit.id === props.task.id) {
+      resizeTextArea();
+    }
+  }, [edit.id, content]);
+
   useEffect(() => {
     setEdit({ id: "", projectID: location.pathname.split("/")[1] });
   }, [location]);
@@ -69,24 +85,33 @@ const Task = ({ ...props }) => {
               // onClick={() => setShow(!show)}e
             >
               <div className="flex justify-between items-center">
-                <div className="flex">
+                <div className="flex items-center truncate">
+                  <p>{props.task.id}/</p>
+
                   {edit.id === props.task.id ? (
                     <input
-                      className="w-20 h-6 px-1"
-                      placeholder={title}
+                      className="w-full h-6 px-1 rounded mr-1"
+                      value={title}
                       onChange={(e) => setTitle(e.target.value)}
                     />
                   ) : (
-                    <h3 className="font-bold">{title}</h3>
+                    <h3
+                      className="font-bold cursor-text truncate"
+                      onDoubleClick={() => {
+                        setEdit((prev) => ({ ...prev, id: props.task.id }));
+                        return setShow(true);
+                      }}
+                    >
+                      {title}
+                    </h3>
                   )}
-                  <p>/{props.task.id}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   {edit.id === props.task.id ? (
                     <div className="flex gap-2 cursor-pointer ">
                       <AiFillCheckCircle
                         className="text-gray-400 hover:text-black"
-                        onClick={() => updateTitle()}
+                        onClick={() => updateTask()}
                       />
                       <AiFillCloseCircle
                         className="text-gray-400 hover:text-black"
@@ -97,9 +122,10 @@ const Task = ({ ...props }) => {
                     <div>
                       <MdEdit
                         className="cursor-pointer text-gray-400 hover:text-black"
-                        onClick={() =>
-                          setEdit((prev) => ({ ...prev, id: props.task.id }))
-                        }
+                        onClick={() => {
+                          setEdit((prev) => ({ ...prev, id: props.task.id }));
+                          return setShow(true);
+                        }}
                       />
                     </div>
                   )}
@@ -111,7 +137,30 @@ const Task = ({ ...props }) => {
                   </div>
                 </div>
               </div>
-              <div className="ml-1">{show && <p>{props.task.content}</p>}</div>
+              <div className="mx-1 ">
+                {show && (
+                  <div className="mt-2">
+                    {edit.id === props.task.id ? (
+                      <textarea
+                        className="w-full px-1 rounded mr-1 bg-white overflow-hidden block h-auto overflow-y-hidden"
+                        value={content}
+                        rows={1}
+                        onChange={(e) => setContent(e.target.value)}
+                        ref={textArea}
+                      />
+                    ) : (
+                      <p
+                        className="cursor-text w-full break-all"
+                        onDoubleClick={() =>
+                          setEdit((prev) => ({ ...prev, id: props.task.id }))
+                        }
+                      >
+                        {content}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
