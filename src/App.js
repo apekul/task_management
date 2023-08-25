@@ -11,6 +11,11 @@ import { Context } from "./context";
 // More project options: close project, archive closet projects?
 // More task options: editing, additional buttons?
 
+// Karl:
+// add Task move to columns
+// Column list scrollable to right
+// Task description with check list/ display how many done
+
 function App() {
   const [data, setData] = useState(() => {
     let getStorage = JSON.parse(localStorage.getItem("ManagementData"));

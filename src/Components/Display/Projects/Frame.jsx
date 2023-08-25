@@ -32,7 +32,13 @@ export const Frame = ({ ...props }) => {
                 }`}
               >
                 {props.tasks.map((task, index) => (
-                  <Task key={task.id} task={task} index={index} />
+                  <Task
+                    key={task.id}
+                    task={task}
+                    index={index}
+                    column={props.column}
+                    setProject={props.setProject}
+                  />
                 ))}
                 {provided.placeholder}
               </div>

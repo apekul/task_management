@@ -9,6 +9,7 @@ import {
   AiFillCloseCircle,
   AiFillDelete,
 } from "react-icons/ai";
+import { FaExchangeAlt } from "react-icons/fa";
 
 const Task = ({ ...props }) => {
   const location = useLocation();
@@ -19,7 +20,6 @@ const Task = ({ ...props }) => {
     id: "",
     projectID: location.pathname.split("/")[1],
   });
-  const [textAreaHeight, setTextAreaHeight] = useState(1);
 
   const [title, setTitle] = useState(props.task.title);
   const [content, setContent] = useState(props.task.content);
@@ -47,6 +47,27 @@ const Task = ({ ...props }) => {
     return;
   };
 
+  // Deleting task func
+  const deleteTask = () => {
+    let projectID = edit.projectID;
+    let taskID = props.task.id;
+    let newTasks = data[projectID].tasks;
+
+    let newColumn = props.column;
+    let newTaskIDs = newColumn.taskIDs.filter((v) => v !== taskID);
+
+    newColumn = { ...newColumn, taskIDs: newTaskIDs };
+    delete newTasks[taskID];
+
+    props.setProject((prev) => ({
+      ...prev,
+      tasks: newTasks,
+      columns: { ...prev.columns, [props.column.id]: newColumn },
+    }));
+    return;
+  };
+
+  // Resize textArea
   const resizeTextArea = () => {
     textArea.current.style.height = "auto";
     textArea.current.style.height = textArea.current.scrollHeight + "px";
@@ -108,13 +129,13 @@ const Task = ({ ...props }) => {
                 </div>
                 <div className="flex items-center gap-2">
                   {edit.id === props.task.id ? (
-                    <div className="flex gap-2 cursor-pointer ">
+                    <div className="flex gap-2 cursor-pointer text-lg">
                       <AiFillCheckCircle
-                        className="text-gray-400 hover:text-black"
+                        className="text-gray-400 hover:text-green-500"
                         onClick={() => updateTask()}
                       />
                       <AiFillCloseCircle
-                        className="text-gray-400 hover:text-black"
+                        className="text-gray-400 hover:text-red-500"
                         onClick={() => setEdit((prev) => ({ ...prev, id: "" }))}
                       />
                     </div>
@@ -142,7 +163,7 @@ const Task = ({ ...props }) => {
                   <div className="mt-2">
                     {edit.id === props.task.id ? (
                       <textarea
-                        className="w-full px-1 rounded mr-1 bg-white overflow-hidden block h-auto overflow-y-hidden"
+                        className="w-full px-1 rounded mr-1 bg-white overflow-hidden block h-auto overflow-y-hidden resize-none"
                         value={content}
                         rows={1}
                         onChange={(e) => setContent(e.target.value)}
@@ -158,6 +179,19 @@ const Task = ({ ...props }) => {
                         {content}
                       </p>
                     )}
+
+                    {/* Task buttons */}
+                    <div className="flex gap-2 justify-end mt-2">
+                      <button
+                        className="text-gray-400 hover:text-red-500"
+                        onClick={deleteTask}
+                      >
+                        <AiFillDelete className="text-lg" />
+                      </button>
+                      <button className="text-gray-400 hover:text-black">
+                        <FaExchangeAlt className="text-lg" />
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>

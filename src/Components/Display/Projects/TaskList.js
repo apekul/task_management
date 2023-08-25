@@ -107,6 +107,7 @@ const TaskList = ({ project, setProject }) => {
                     column={column}
                     tasks={tasks}
                     index={index}
+                    setProject={setProject}
                   />
                 );
               })}

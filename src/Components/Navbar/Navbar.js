@@ -102,7 +102,7 @@ const Navbar = ({ hideNav, setHideNav }) => {
 
                   <div className="flex items-center gap-1 w-full text-base mt-10">
                     <BsFillArchiveFill className="text-base" />
-                    <p>Closet Projects</p>
+                    <p>Closed Projects</p>
                   </div>
                 </li>
               </>

@@ -157,9 +157,7 @@ const Display = () => {
             />
             <div
               className={`absolute top-10 -right-5 w-60 bg-white border-2 px-3 py-2 transition-all ${
-                options
-                  ? "opacity-100 translate-y-1"
-                  : "-translate-y-1 opacity-0"
+                !options && "hidden"
               }`}
             >
               <div className="flex flex-col items-start justify-center gap-2">
