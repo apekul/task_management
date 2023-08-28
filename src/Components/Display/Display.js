@@ -23,36 +23,36 @@ const Display = () => {
   const navigate = useNavigate();
 
   // Add new task to TODO list
-  const addTask = () => {
-    // let columnName = "column-1";
-    let flated = Object.values(project.tasks).map((v) => v);
-    let newID;
-    if (flated.length <= 0) {
-      newID = "task-1";
-    } else {
-      newID = `task-${Math.max(...flated.map((v) => +v.id.split("-")[1])) + 1}`;
-    }
+  // const addTask = () => {
+  //   // let columnName = "column-1";
+  //   let flated = Object.values(project.tasks).map((v) => v);
+  //   let newID;
+  //   if (flated.length <= 0) {
+  //     newID = "task-1";
+  //   } else {
+  //     newID = `task-${Math.max(...flated.map((v) => +v.id.split("-")[1])) + 1}`;
+  //   }
 
-    let newTask = {
-      id: newID,
-      title: "New Task",
-      content: "New task description",
-    };
+  //   let newTask = {
+  //     id: newID,
+  //     title: "New Task",
+  //     content: "New task description",
+  //   };
 
-    // Add Task
-    setProject((prev) => ({
-      ...prev,
-      tasks: { ...prev.tasks, [newID]: newTask },
-      columns: {
-        ...prev.columns,
-        "column-1": {
-          ...prev.columns["column-1"],
-          taskIDs: [...prev.columns["column-1"].taskIDs, newID],
-        },
-      },
-    }));
-    return;
-  };
+  //   // Add Task
+  //   setProject((prev) => ({
+  //     ...prev,
+  //     tasks: { ...prev.tasks, [newID]: newTask },
+  //     columns: {
+  //       ...prev.columns,
+  //       "column-1": {
+  //         ...prev.columns["column-1"],
+  //         taskIDs: [...prev.columns["column-1"].taskIDs, newID],
+  //       },
+  //     },
+  //   }));
+  //   return;
+  // };
 
   const addColumn = () => {
     let newID = `column-${
@@ -109,7 +109,7 @@ const Display = () => {
             <>
               <input
                 placeholder={title}
-                className="font-extrabold text-xl w-32 px-1 truncate"
+                className="font-extrabold text-xl w-auto px-1 truncate"
                 onChange={(e) => setTitle(e.target.value)}
               />
               <AiFillCheckCircle
@@ -137,12 +137,6 @@ const Display = () => {
           )}
         </div>
         <div className="flex items-center gap-4 select-none">
-          <button
-            className="bg-gray-500 px-2 py-1 rounded text-white hover:bg-gray-700"
-            onClick={() => addTask()}
-          >
-            Add Task
-          </button>
           <button
             className="bg-gray-500 px-2 py-1 rounded text-white hover:bg-gray-700"
             onClick={() => addColumn()}

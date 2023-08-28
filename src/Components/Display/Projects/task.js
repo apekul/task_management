@@ -1,9 +1,12 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
-import { Draggable } from "react-beautiful-dnd";
-import { MdEdit } from "react-icons/md";
 import { Context } from "../../../context";
+import CheckBox from "./TaskComponents/CheckBox";
+import { Draggable } from "react-beautiful-dnd";
 import { useLocation } from "react-router-dom";
+
+// Icons
+import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+import { MdEdit } from "react-icons/md";
 import {
   AiFillCheckCircle,
   AiFillCloseCircle,
@@ -20,9 +23,15 @@ const Task = ({ ...props }) => {
     id: "",
     projectID: location.pathname.split("/")[1],
   });
-
   const [title, setTitle] = useState(props.task.title);
   const [content, setContent] = useState(props.task.content);
+
+  const subTaskStatus = {
+    completed: Object.keys(props.task.subTasks)
+      .map((v) => props.task.subTasks[v].completed)
+      .filter((v) => v).length,
+    all: Object.keys(props.task.subTasks).length,
+  };
 
   const updateTask = () => {
     let taskID = props.task.id;
@@ -91,11 +100,17 @@ const Task = ({ ...props }) => {
     >
       {(provided, snapshot) => (
         <div
-          className={`border-black rounded mb-2 ${
-            snapshot.isDragging
-              ? "bg-gray-200 border-dashed border-2"
-              : "bg-gray-300"
-          }`}
+          className={`border-black bg-gray-300 rounded mb-2 ${
+            snapshot.isDragging && "bg-gray-100 border-dashed border-2"
+          }
+          ${subTaskStatus.completed === subTaskStatus.all && "bg-green-300"}
+          ${
+            subTaskStatus.completed < subTaskStatus.all &&
+            subTaskStatus.completed > 0 &&
+            "bg-orange-300"
+          }
+          
+          `}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
@@ -107,6 +122,9 @@ const Task = ({ ...props }) => {
             >
               <div className="flex justify-between items-center">
                 <div className="flex items-center truncate">
+                  <p className="mr-1">
+                    [{subTaskStatus.completed}/{subTaskStatus.all}]
+                  </p>
                   <p>{props.task.id}/</p>
 
                   {edit.id === props.task.id ? (
@@ -158,7 +176,7 @@ const Task = ({ ...props }) => {
                   </div>
                 </div>
               </div>
-              <div className="mx-1 ">
+              <div className="mx-1">
                 {show && (
                   <div className="mt-2">
                     {edit.id === props.task.id ? (
@@ -171,7 +189,7 @@ const Task = ({ ...props }) => {
                       />
                     ) : (
                       <p
-                        className="cursor-text w-full break-all"
+                        className="cursor-text w-full break-all whitespace-pre"
                         onDoubleClick={() =>
                           setEdit((prev) => ({ ...prev, id: props.task.id }))
                         }
@@ -179,6 +197,17 @@ const Task = ({ ...props }) => {
                         {content}
                       </p>
                     )}
+
+                    {/* Check list  */}
+                    <div className="my-5">
+                      <CheckBox
+                        task={props.task}
+                        setProject={props.setProject}
+                        projectID={location.pathname.split("/")[1]}
+                        project={props.project}
+                        subTaskStatus={subTaskStatus}
+                      />
+                    </div>
 
                     {/* Task buttons */}
                     <div className="flex gap-2 justify-end mt-2">

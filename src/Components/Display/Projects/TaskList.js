@@ -108,6 +108,7 @@ const TaskList = ({ project, setProject }) => {
                     tasks={tasks}
                     index={index}
                     setProject={setProject}
+                    project={project}
                   />
                 );
               })}

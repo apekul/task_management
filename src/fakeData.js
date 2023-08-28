@@ -22,3 +22,7 @@ export const template = {
   },
   columnOrder: ["column-1", "column-2", "column-3"],
 };
+
+// export const subTaskPattern = {
+//   "subTask-1": { id: "subTask-1", title: "newSubtask", completed: false },
+// };
