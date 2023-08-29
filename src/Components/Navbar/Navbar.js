@@ -192,12 +192,12 @@ const Navbar = ({ hideNav, setHideNav }) => {
       </div>
 
       {/* Mobile */}
-      {/* <MobileNavbar
-        projects={data.projects}
+      <MobileNavbar
+        data={data}
         addNewProject={addNewProject}
         toggleTheme={toggleTheme}
         setToggleTheme={setToggleTheme}
-      /> */}
+      />
     </>
   );
 };

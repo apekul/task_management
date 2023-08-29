@@ -19,6 +19,7 @@ const SubTask = ({ ...props }) => {
     if (props.edit.subID === props.data[props.v].id) {
       resizeTextArea();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.edit.subID, title]);
   return (
     <div

@@ -89,6 +89,7 @@ const CheckBox = ({ ...props }) => {
   };
   useEffect(() => {
     setData(props.task.subTasks);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.project]);
 
   return (

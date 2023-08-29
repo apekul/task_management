@@ -7,16 +7,10 @@ import {
 } from "react-icons/ai";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
 
-const MobileNavbar = ({
-  projects,
-  addNewProject,
-  toggleTheme,
-  setToggleTheme,
-}) => {
+const MobileNavbar = ({ data, addNewProject, toggleTheme, setToggleTheme }) => {
   const [showBoard, setShowBoard] = useState(false);
-
   return (
-    <div className="lg:hidden flex w-full px-2 sm:px-5 items-center justify-between border-b py-3 text-xs sm:text-base">
+    <div className="lg:hidden flex w-full px-2 sm:px-5 items-center justify-between border-b py-3 text-xs sm:text-base fixed bg-white">
       <div className="flex gap-5">
         <h1 className="font-extrabold text-lg sm:text-xl">
           <a href="/">.logo</a>
@@ -28,7 +22,7 @@ const MobileNavbar = ({
             className="flex items-center justify-center gap-1"
             onClick={() => setShowBoard(!showBoard)}
           >
-            <p>ALL BOARDS ({projects.length})</p>
+            <p>ALL BOARDS ({Object.keys(data).length})</p>
             {showBoard ? <AiFillCaretUp /> : <AiFillCaretDown />}
           </div>
           <div
@@ -36,7 +30,7 @@ const MobileNavbar = ({
               showBoard ? "translate-y-0 visible" : "-translate-y-1 invisible"
             }`}
           >
-            {projects.map((v, i) => (
+            {Object.values(data).map((v, i) => (
               <li className="cursor-pointer px-3" key={i}>
                 <div className={``}>
                   <Link

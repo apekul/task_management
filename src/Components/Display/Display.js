@@ -59,20 +59,23 @@ const Display = ({ hideNav }) => {
   useEffect(() => {
     setTitle(data[projectID].title);
     setProject(data[projectID]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectID]);
 
   useEffect(() => {
     setProject(data[projectID]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
     setData((prev) => ({ ...prev, [project.id]: project }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [project]);
 
   return (
     <>
       <div
-        className={`border-b-2 p-5 flex items-center justify-between w-full fixed bg-white transition-all ${
+        className={`border-b-2  flex items-center justify-between w-full lg:fixed bg-white transition-all p-5 pt-20 lg:p-5 ${
           hideNav ? "lg:pl-24" : "lg:pl-56"
         } `}
       >

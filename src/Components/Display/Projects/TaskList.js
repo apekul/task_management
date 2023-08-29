@@ -92,7 +92,7 @@ const TaskList = ({ project, setProject }) => {
         >
           {(provided) => (
             <div
-              className="flex flex-col sm:flex-row select-none h-screen overflow-x-auto pt-20"
+              className="flex flex-col sm:flex-row select-none h-screen overflow-x-auto lg:pt-20"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
