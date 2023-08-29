@@ -1,3 +1,6 @@
+## About
+    Task management application with simple editing options.
+
 ## Used
     React 16.13.1
     Node v18.15.0
