@@ -72,7 +72,7 @@ const Display = ({ hideNav }) => {
   return (
     <>
       <div
-        className={`border-b-2 p-5 flex items-center justify-between w-full fixed bg-white ${
+        className={`border-b-2 p-5 flex items-center justify-between w-full fixed bg-white transition-all ${
           hideNav ? "lg:pl-24" : "lg:pl-56"
         } `}
       >
@@ -151,7 +151,7 @@ const Display = ({ hideNav }) => {
           </div>
         </div>
       </div>
-      <div className={`${hideNav ? "lg:pl-20" : "lg:pl-52"}`}>
+      <div className={`transition-all ${hideNav ? "lg:pl-20" : "lg:pl-52"}`}>
         <TaskList project={project} setProject={setProject} />
       </div>
     </>

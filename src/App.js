@@ -12,9 +12,6 @@ import { Context } from "./context";
 // More task options: editing, additional buttons?
 // Button sort by complete, move tasks to column: todo, doing, done
 
-// Karl:
-// Column list scrollable to right
-
 function App() {
   const [data, setData] = useState(() => {
     let getStorage = JSON.parse(localStorage.getItem("ManagementData"));
