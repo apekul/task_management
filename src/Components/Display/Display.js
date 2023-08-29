@@ -10,7 +10,7 @@ import {
   AiFillDelete,
 } from "react-icons/ai";
 
-const Display = () => {
+const Display = ({ hideNav }) => {
   const [data, setData] = useContext(Context);
 
   const { projectID } = useParams();
@@ -21,38 +21,6 @@ const Display = () => {
   const [options, setOptions] = useState(false);
 
   const navigate = useNavigate();
-
-  // Add new task to TODO list
-  // const addTask = () => {
-  //   // let columnName = "column-1";
-  //   let flated = Object.values(project.tasks).map((v) => v);
-  //   let newID;
-  //   if (flated.length <= 0) {
-  //     newID = "task-1";
-  //   } else {
-  //     newID = `task-${Math.max(...flated.map((v) => +v.id.split("-")[1])) + 1}`;
-  //   }
-
-  //   let newTask = {
-  //     id: newID,
-  //     title: "New Task",
-  //     content: "New task description",
-  //   };
-
-  //   // Add Task
-  //   setProject((prev) => ({
-  //     ...prev,
-  //     tasks: { ...prev.tasks, [newID]: newTask },
-  //     columns: {
-  //       ...prev.columns,
-  //       "column-1": {
-  //         ...prev.columns["column-1"],
-  //         taskIDs: [...prev.columns["column-1"].taskIDs, newID],
-  //       },
-  //     },
-  //   }));
-  //   return;
-  // };
 
   const addColumn = () => {
     let newID = `column-${
@@ -103,7 +71,11 @@ const Display = () => {
 
   return (
     <>
-      <div className="border-b-2 p-5 flex items-center justify-between mb-2 w-full">
+      <div
+        className={`border-b-2 p-5 flex items-center justify-between w-full fixed bg-white ${
+          hideNav ? "lg:pl-24" : "lg:pl-56"
+        } `}
+      >
         <div className="flex items-center gap-2">
           {editTitle ? (
             <>
@@ -138,7 +110,7 @@ const Display = () => {
         </div>
         <div className="flex items-center gap-4 select-none">
           <button
-            className="bg-gray-500 px-2 py-1 rounded text-white hover:bg-gray-700"
+            className="bg-gray-500 px-2 rounded text-white hover:bg-gray-700"
             onClick={() => addColumn()}
           >
             Add Column
@@ -179,7 +151,9 @@ const Display = () => {
           </div>
         </div>
       </div>
-      <TaskList project={project} setProject={setProject} />
+      <div className={`${hideNav ? "lg:pl-20" : "lg:pl-52"}`}>
+        <TaskList project={project} setProject={setProject} />
+      </div>
     </>
   );
 };

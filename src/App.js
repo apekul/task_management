@@ -35,11 +35,7 @@ function App() {
       <div className="flex flex-col lg:flex-row items-center justify-start bg-white text-slate-800">
         <Context.Provider value={[data, setData]}>
           <Navbar hideNav={hideNav} setHideNav={setHideNav} />
-          <div
-            className={`w-full h-screen transition-all ${
-              hideNav ? "lg:ml-20" : "lg:ml-52"
-            }`}
-          >
+          <div className={`w-full h-screen transition-all`}>
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route
