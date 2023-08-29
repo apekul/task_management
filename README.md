@@ -2,7 +2,8 @@
     Task management application with simple editing options.
 
 ## Demo
-    marvelous-longma-a6d022.netlify.app
+
+https://stunning-mermaid-6e4b29.netlify.app
 
 ## Used
     React 16.13.1
