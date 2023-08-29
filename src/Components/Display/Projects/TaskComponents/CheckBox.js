@@ -51,10 +51,24 @@ const CheckBox = ({ ...props }) => {
         },
       },
     }));
-
     return;
   };
 
+  // delete subTask
+  const deleteSubTask = (v) => {
+    let id = props.task.id;
+    let subID = data[v].id;
+    let newSubTasks = props.project.tasks[id].subTasks;
+    delete newSubTasks[subID];
+    props.setProject((prev) => ({
+      ...prev,
+      tasks: {
+        ...prev.tasks,
+        [id]: { ...prev.tasks[id], subTasks: newSubTasks },
+      },
+    }));
+    return;
+  };
   useEffect(() => {
     setData(props.task.subTasks);
   }, [props.project]);
@@ -78,7 +92,10 @@ const CheckBox = ({ ...props }) => {
             }`}
           >
             <div className="flex items-center gap-1">
-              <AiFillDelete className="text-gray-500 hover:text-red-500 cursor-pointer" />
+              <AiFillDelete
+                className="text-gray-500 hover:text-red-500 cursor-pointer"
+                onClick={() => deleteSubTask(v)}
+              />
               <MdEdit className="text-gray-500 hover:text-black cursor-pointer" />
               <p
                 className={`${

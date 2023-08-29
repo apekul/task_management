@@ -203,7 +203,7 @@ const Task = ({ ...props }) => {
                       <CheckBox
                         task={props.task}
                         setProject={props.setProject}
-                        projectID={location.pathname.split("/")[1]}
+                        // projectID={location.pathname.split("/")[1]}
                         project={props.project}
                         subTaskStatus={subTaskStatus}
                       />

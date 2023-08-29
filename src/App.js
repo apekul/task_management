@@ -7,9 +7,10 @@ import Dashboard from "./Components/Dashboard";
 import { Context } from "./context";
 
 // Fake url handling
-// Task: update, delete, clone?, move to other project?
+// Task/subTask: update, delete, clone?, move to other project?
 // More project options: close project, archive closet projects?
 // More task options: editing, additional buttons?
+// Button sort by complete, move tasks to column: todo, doing, done
 
 // Karl:
 // add Task move to columns
