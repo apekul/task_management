@@ -1,8 +1,9 @@
 ## Used
-    React 18.2.0
+    React 16.13.1
     Node v18.15.0
     tailwindcss 3.3.2
-    @hello-pangea/dnd for drag/drop functionality
+    react-beautiful-dnd 13.0.0
 
 ## Features
-- Drag/Drop tasks to conteners
+- Add/Update/Remove Projects, tasks, subtask, Columns
+- Columns and tasks can be sorted using drag and drop functinalities
