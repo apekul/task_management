@@ -86,6 +86,7 @@ const Task = ({ ...props }) => {
     if (edit.id === props.task.id) {
       resizeTextArea();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [edit.id, content]);
 
   useEffect(() => {
