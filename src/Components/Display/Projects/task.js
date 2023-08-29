@@ -101,7 +101,7 @@ const Task = ({ ...props }) => {
       {(provided, snapshot) => (
         <div
           className={`border-black bg-gray-300 rounded mb-2 ${
-            snapshot.isDragging && "bg-gray-100 border-dashed border-2"
+            snapshot.isDragging && "bg-gray-50 border-dashed border-2"
           }
           ${subTaskStatus.completed === subTaskStatus.all && "bg-green-300"}
           ${

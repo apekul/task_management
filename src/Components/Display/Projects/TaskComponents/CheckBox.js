@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
-import {
-  AiFillCheckCircle,
-  AiFillCloseCircle,
-  AiFillDelete,
-} from "react-icons/ai";
-import { MdEdit } from "react-icons/md";
+
+import SubTask from "./SubTask";
 // import { subTaskPattern } from "../../../../fakeData";
 
 const CheckBox = ({ ...props }) => {
   const [data, setData] = useState(props.task.subTasks);
+  const [edit, setEdit] = useState({ subID: "", taskID: props.task.id });
 
   const addSubTask = () => {
     let id = props.task.id;
@@ -32,6 +29,27 @@ const CheckBox = ({ ...props }) => {
       },
     }));
     return;
+  };
+
+  const updateSubTitle = (v, title) => {
+    let id = props.task.id;
+    let subID = data[v].id;
+    if (title.length > 0) {
+      props.setProject((prev) => ({
+        ...prev,
+        tasks: {
+          ...prev.tasks,
+          [id]: {
+            ...prev.tasks[id],
+            subTasks: {
+              ...prev.tasks[id].subTasks,
+              [subID]: { ...prev.tasks[id].subTasks[subID], title: title },
+            },
+          },
+        },
+      }));
+      setEdit((prev) => ({ ...prev, subID: "" }));
+    }
   };
 
   const updateCheck = (e, v) => {
@@ -85,33 +103,16 @@ const CheckBox = ({ ...props }) => {
       </div>
       <div className="rounded flex flex-col">
         {Object.keys(data).map((v, i) => (
-          <div
+          <SubTask
             key={data[v].id}
-            className={`flex justify-between px-2 py-1 gap-1 items-center my-1 ${
-              data[v].completed ? "bg-green-500" : "bg-gray-400"
-            }`}
-          >
-            <div className="flex items-center gap-1">
-              <AiFillDelete
-                className="text-gray-500 hover:text-red-500 cursor-pointer"
-                onClick={() => deleteSubTask(v)}
-              />
-              <MdEdit className="text-gray-500 hover:text-black cursor-pointer" />
-              <p
-                className={`${
-                  data[v].completed && "line-through"
-                }  cursor-pointer`}
-              >
-                {data[v].title}
-              </p>
-            </div>
-            <input
-              className="cursor-pointer w-4 h-4 accent-green-600"
-              type="checkbox"
-              onChange={(e) => updateCheck(e, v)}
-              checked={data[v].completed}
-            />
-          </div>
+            v={v}
+            data={data}
+            deleteSubTask={deleteSubTask}
+            setEdit={setEdit}
+            edit={edit}
+            updateCheck={updateCheck}
+            updateSubTitle={updateSubTitle}
+          />
         ))}
       </div>
     </>
