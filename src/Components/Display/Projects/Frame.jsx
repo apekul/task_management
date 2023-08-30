@@ -43,7 +43,7 @@ export const Frame = ({ ...props }) => {
     <Draggable draggableId={props.column.id} index={props.index}>
       {(provided) => (
         <div
-          className="m-2 min-w-[350px] flex flex-col rounded bg-white"
+          className="px-2 sm:min-w-[400px] min-w-full flex flex-col rounded bg-white"
           {...provided.draggableProps}
           ref={provided.innerRef}
         >

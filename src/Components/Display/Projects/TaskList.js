@@ -1,8 +1,9 @@
 import React from "react";
 import Frame from "./Frame";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { MdOutlineAddBox } from "react-icons/md";
 
-const TaskList = ({ project, setProject }) => {
+const TaskList = ({ project, setProject, addColumn }) => {
   // Drag function
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
@@ -92,7 +93,7 @@ const TaskList = ({ project, setProject }) => {
         >
           {(provided) => (
             <div
-              className="flex flex-col sm:flex-row select-none h-screen overflow-x-auto lg:pt-20"
+              className={`flex select-none h-screen overflow-x-auto lg:pt-20`}
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -113,6 +114,12 @@ const TaskList = ({ project, setProject }) => {
                 );
               })}
               {provided.placeholder}
+              <div
+                onClick={() => addColumn()}
+                className="mx-2 cursor-pointer sm:min-w-[400px] min-w-full flex items-center justify-center text-6xl rounded h-full bg-gray-50 text-gray-300 hover:bg-gray-200 hover:text-gray-500"
+              >
+                <MdOutlineAddBox />
+              </div>
             </div>
           )}
         </Droppable>

@@ -84,7 +84,7 @@ const Display = ({ hideNav }) => {
             <>
               <input
                 placeholder={title}
-                className="font-extrabold text-xl w-auto px-1 truncate"
+                className="font-extrabold text-xl w-2/3 px-1 "
                 onChange={(e) => setTitle(e.target.value)}
               />
               <AiFillCheckCircle
@@ -101,7 +101,7 @@ const Display = ({ hideNav }) => {
             </>
           ) : (
             <>
-              <h2 className="font-extrabold text-xl truncate max-w-screen-lg">
+              <h2 className="font-extrabold text-xl truncate max-w-[150px] sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-4xl">
                 {title}
               </h2>
               <MdEdit
@@ -112,13 +112,6 @@ const Display = ({ hideNav }) => {
           )}
         </div>
         <div className="flex items-center gap-4 select-none">
-          <button
-            className="bg-gray-500 px-2 rounded text-white hover:bg-gray-700"
-            onClick={() => addColumn()}
-          >
-            Add Column
-          </button>
-
           <div className="relative">
             <BiDotsVerticalRounded
               className="cursor-pointer"
@@ -155,7 +148,11 @@ const Display = ({ hideNav }) => {
         </div>
       </div>
       <div className={`transition-all ${hideNav ? "lg:pl-20" : "lg:pl-52"}`}>
-        <TaskList project={project} setProject={setProject} />
+        <TaskList
+          project={project}
+          setProject={setProject}
+          addColumn={addColumn}
+        />
       </div>
     </>
   );
