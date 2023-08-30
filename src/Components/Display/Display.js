@@ -23,11 +23,18 @@ const Display = ({ hideNav }) => {
   const navigate = useNavigate();
 
   const addColumn = () => {
-    let newID = `column-${
-      Math.max(
-        ...Object.values(project.columns).map((v) => +v.id.split("-")[1])
-      ) + 1
-    }`;
+    let flated = Object.keys(project.columns).length;
+    let newID;
+    if (flated > 0) {
+      newID = `column-${
+        Math.max(
+          ...Object.values(project.columns).map((v) => +v.id.split("-")[1])
+        ) + 1
+      }`;
+    } else {
+      newID = "column-1";
+    }
+
     let newColumn = {
       id: newID,
       title: newID,
@@ -131,10 +138,10 @@ const Display = ({ hideNav }) => {
                   />
                 </div>
 
-                <div className="flex items-center gap-1 w-full p-1 rounded hover:bg-gray-200 cursor-pointer">
+                {/* <div className="flex items-center gap-1 w-full p-1 rounded hover:bg-gray-200 cursor-pointer">
                   <AiFillCheckCircle />
                   <p className="truncate w-4/5">Close {project.title}</p>
-                </div>
+                </div> */}
                 <div
                   className="flex items-center gap-1 bg-red-200 w-full p-1 rounded hover:bg-red-400 cursor-pointer"
                   onClick={() => deleteProject()}

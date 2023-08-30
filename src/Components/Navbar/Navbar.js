@@ -5,7 +5,7 @@ import {
   AiOutlineArrowRight,
   AiFillFolderAdd,
 } from "react-icons/ai";
-import { BsFillArchiveFill } from "react-icons/bs";
+// import { BsFillArchiveFill } from "react-icons/bs";
 import { Context } from "../../context";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import MobileNavbar from "./MobileNavbar";
@@ -100,10 +100,10 @@ const Navbar = ({ hideNav, setHideNav }) => {
                     <p>Add New Board</p>
                   </div>
 
-                  <div className="flex items-center gap-1 w-full text-base mt-10">
+                  {/* <div className="flex items-center gap-1 w-full text-base mt-10">
                     <BsFillArchiveFill className="text-base" />
                     <p>Closed Projects</p>
-                  </div>
+                  </div> */}
                 </li>
               </>
             ) : (
@@ -149,9 +149,9 @@ const Navbar = ({ hideNav, setHideNav }) => {
                 </div>
 
                 {/* Archive button */}
-                <div>
+                {/* <div>
                   <BsFillArchiveFill className="text-base" />
-                </div>
+                </div> */}
               </div>
             )}
           </ul>
