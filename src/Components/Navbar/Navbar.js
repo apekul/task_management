@@ -55,7 +55,7 @@ const Navbar = ({ hideNav, setHideNav }) => {
   return (
     <>
       <div
-        className={`transition-all hidden lg:flex h-screen flex-col items-center justify-between py-5 border-r-2 fixed z-10 bg-white ${
+        className={`transition-all hidden lg:flex h-screen flex-col items-center justify-between py-5 border-r-2 fixed z-20 bg-white ${
           hideNav ? "w-20" : "w-52"
         }`}
       >

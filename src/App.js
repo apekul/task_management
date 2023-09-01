@@ -34,7 +34,7 @@ function App() {
           <Navbar hideNav={hideNav} setHideNav={setHideNav} />
           <div className={`w-full h-screen transition-all`}>
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<Dashboard hideNav={hideNav} />} />
               <Route
                 path="/:projectID"
                 element={<Display hideNav={hideNav} />}
