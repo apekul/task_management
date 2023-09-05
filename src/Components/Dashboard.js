@@ -1,9 +1,59 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../context";
-import Chart from "./Display/Projects/Charts/Chart.js";
+import ChartGroup from "./Display/Projects/Charts/ChartGroup";
 
 const Dashboard = ({ hideNav }) => {
   const [data, setData] = useContext(Context);
+  const [chartData, setChartData] = useState();
+
+  // filter Projects to get minimalized data
+  const DataFilter = () => {
+    let newData = [];
+    for (let e of Object.values(data)) {
+      let flated = Object.values(e.tasks);
+      let tasks = 0,
+        subTasks = 0,
+        open = 0,
+        completed = 0;
+
+      if (flated.length > 0) {
+        tasks = flated.length;
+        subTasks = flated
+          .map((v) => Object.values(v.subTasks).length)
+          .reduce((acc, curr) => acc + curr);
+
+        open = flated
+          .map((v) =>
+            Object.values(v.subTasks)
+              .map((a) => a.completed)
+              .every(Boolean)
+          )
+          .filter((x) => x !== true).length;
+
+        completed = flated
+          .map((v) =>
+            Object.values(v.subTasks)
+              .map((a) => a.completed)
+              .every(Boolean)
+          )
+          .filter(Boolean).length;
+      }
+
+      newData.push({
+        name: e.title,
+        completed: completed,
+        open: open,
+        all: tasks,
+        SubTasks: subTasks,
+      });
+    }
+    return setChartData(newData);
+  };
+
+  useEffect(() => {
+    DataFilter();
+  }, [data]);
+
   return (
     <>
       <div
@@ -14,12 +64,11 @@ const Dashboard = ({ hideNav }) => {
         <h1>Dashboard</h1>
       </div>
       <div
-        className={`text-black w-full h-full transition-all lg:pt-20 ${
+        className={`text-black bg-gray-100 w-full h-full transition-all lg:pt-20 pb-5 ${
           hideNav ? "lg:pl-20" : "lg:pl-52"
         }`}
       >
-        {/* Overall Completed/Open */}
-        <Chart data={data} />
+        {chartData && <ChartGroup chartData={chartData} />}
       </div>
     </>
   );

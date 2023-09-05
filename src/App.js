@@ -6,11 +6,12 @@ import Dashboard from "./Components/Dashboard";
 
 import { Context } from "./context";
 
-// fix edit title styling in display for web and mobile
+// fix display for mobile
 // Fake url handling
 // More project options: close project, archive closet projects?
 // Button sort by complete, move tasks to column: todo, doing, done
 // Task/subTask: clone?, move to other project?
+// popup panel for deleting functionalities
 
 function App() {
   const [data, setData] = useState(() => {

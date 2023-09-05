@@ -10,7 +10,7 @@ import { RiMoonFill, RiSunFill } from "react-icons/ri";
 const MobileNavbar = ({ data, addNewProject, toggleTheme, setToggleTheme }) => {
   const [showBoard, setShowBoard] = useState(false);
   return (
-    <div className="lg:hidden flex w-full px-2 sm:px-5 items-center justify-between border-b py-3 text-xs sm:text-base fixed bg-white">
+    <div className="lg:hidden flex w-full px-2 sm:px-5 items-center justify-between border-b py-3 text-xs sm:text-base fixed z-10 bg-white">
       <div className="flex gap-5">
         <h1 className="font-extrabold text-lg sm:text-xl">
           <a href="/">.logo</a>

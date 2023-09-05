@@ -82,32 +82,34 @@ export const Frame = ({ ...props }) => {
           ref={provided.innerRef}
         >
           <div
-            className="flex items-center justify-between border-black border p-2 "
+            className="flex items-center justify-between border-black h-12 border p-2 "
             {...provided.dragHandleProps}
           >
             {/* Column title */}
-            <div className="flex items-center">
+            <div className="flex items-center gap-2 ">
               {editTitle === props.column.id ? (
                 <>
                   <input
-                    className="px-1 font-bold"
                     value={title.toUpperCase()}
+                    maxLength={16}
+                    style={{ width: `${title.length + 5}ch` }}
+                    className={`font-bold min-w-[5ch] px-1 border border-black rounded`}
                     onChange={(e) => setTitle(e.target.value)}
                   />
-                  <div className="flex gap-1 px-1">
-                    <AiFillCheckCircle
-                      onClick={() => updateColumnName()}
-                      className="cursor-pointer text-gray-300 hover:text-black"
-                    />
-                    <AiFillCloseCircle
-                      onClick={() => setEditTitle()}
-                      className="cursor-pointer text-gray-300 hover:text-black"
-                    />
-                  </div>
+                  <AiFillCheckCircle
+                    onClick={() => updateColumnName()}
+                    className="cursor-pointer text-gray-300 hover:text-black"
+                  />
+                  <AiFillCloseCircle
+                    onClick={() => setEditTitle()}
+                    className="cursor-pointer text-gray-300 hover:text-black"
+                  />
                 </>
               ) : (
                 <>
-                  <h3 className="font-bold px-1">{title.toUpperCase()}</h3>
+                  <h3 className="font-bold px-1 min-w-[4ch]">
+                    {title.toUpperCase()}
+                  </h3>
                   <MdEdit
                     className="text-gray-400 hover:text-black cursor-pointer"
                     onClick={() => setEditTitle(props.column.id)}
@@ -131,7 +133,7 @@ export const Frame = ({ ...props }) => {
                 }}
               />
               {show === props.column.id && (
-                <div className="bg-white border-b border-r border-l border-black absolute top-10 mt-0.5 -right-0 w-52 px-2 py-1 text-start">
+                <div className="bg-white border-b border-r border-l border-black absolute top-12 -right-0 w-52 px-2 py-1 text-start">
                   <button
                     className="flex items-center gap-1 bg-red-200 px-2 w-full rounded hover:bg-red-300 truncate"
                     onClick={deleteColumn}

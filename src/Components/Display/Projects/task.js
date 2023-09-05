@@ -130,7 +130,9 @@ const Task = ({ ...props }) => {
 
                   {edit.id === props.task.id ? (
                     <input
-                      className="w-full h-6 px-1 rounded mr-1"
+                      className="min-w-[5ch] h-6 px-1 rounded mr-1 "
+                      maxLength={25}
+                      style={{ width: `${title.length + 1}ch` }}
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                     />

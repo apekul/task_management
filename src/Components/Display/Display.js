@@ -82,7 +82,7 @@ const Display = ({ hideNav }) => {
   return (
     <>
       <div
-        className={`border-b-2  flex items-center justify-between w-full z-10 lg:fixed bg-white transition-all p-5 pt-20 lg:p-5 ${
+        className={`border-b-2 h-16 flex items-center justify-between w-full z-10 lg:fixed bg-white transition-all p-5 pt-20 lg:p-5 ${
           hideNav ? "lg:pl-24" : "lg:pl-56"
         } `}
       >
@@ -90,8 +90,10 @@ const Display = ({ hideNav }) => {
           {editTitle ? (
             <>
               <input
-                placeholder={title}
-                className="font-extrabold text-xl w-2/3 px-1 "
+                value={title}
+                maxLength={25}
+                style={{ width: `${title.length + 1}ch` }}
+                className={`font-extrabold text-xl min-w-[5ch] px-1 border border-black rounded`}
                 onChange={(e) => setTitle(e.target.value)}
               />
               <AiFillCheckCircle
@@ -108,7 +110,7 @@ const Display = ({ hideNav }) => {
             </>
           ) : (
             <>
-              <h2 className="font-extrabold text-xl truncate max-w-[150px] sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-4xl">
+              <h2 className="font-extrabold text-xl truncate min-w-[2ch] max-w-[150px] sm:max-w-sm md:max-w-md lg:max-w-2xl xl:max-w-4xl">
                 {title}
               </h2>
               <MdEdit
@@ -125,7 +127,7 @@ const Display = ({ hideNav }) => {
               onClick={() => setOptions(!options)}
             />
             <div
-              className={`absolute top-10 -right-5 w-60 bg-white border-2 px-3 py-2 transition-all ${
+              className={`absolute top-10 -right-5 w-60 bg-white z-10 border-2 px-3 py-2 transition-all ${
                 !options && "hidden"
               }`}
             >
@@ -137,11 +139,6 @@ const Display = ({ hideNav }) => {
                     onClick={() => setOptions(!options)}
                   />
                 </div>
-
-                {/* <div className="flex items-center gap-1 w-full p-1 rounded hover:bg-gray-200 cursor-pointer">
-                  <AiFillCheckCircle />
-                  <p className="truncate w-4/5">Close {project.title}</p>
-                </div> */}
                 <div
                   className="flex items-center gap-1 bg-red-200 w-full p-1 rounded hover:bg-red-400 cursor-pointer"
                   onClick={() => deleteProject()}

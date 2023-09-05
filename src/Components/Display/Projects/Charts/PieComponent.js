@@ -28,21 +28,20 @@ const renderCustomizedLabel = ({
     </text>
   );
 };
-
-const PieComponent = ({ filterData }) => {
+const PieComponent = ({ getStats }) => {
   return (
-    <PieChart width={400} height={400}>
+    <PieChart width={300} height={350}>
       <Pie
-        data={filterData()}
+        data={getStats}
         cx="50%"
         cy="50%"
         labelLine={false}
         label={renderCustomizedLabel}
-        outerRadius={150}
+        outerRadius={100}
         fill="#8884d8"
         dataKey="value"
       >
-        {filterData().map((entry, index) => (
+        {getStats.map((entry, index) => (
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}
       </Pie>
