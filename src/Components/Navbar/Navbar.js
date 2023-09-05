@@ -5,6 +5,7 @@ import {
   AiOutlineArrowRight,
   AiFillFolderAdd,
 } from "react-icons/ai";
+import { IoStatsChart } from "react-icons/io5";
 // import { BsFillArchiveFill } from "react-icons/bs";
 import { Context } from "../../context";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -69,6 +70,11 @@ const Navbar = ({ hideNav, setHideNav }) => {
           <ul className="flex gap-2 flex-col ">
             {!hideNav ? (
               <>
+                <a href="/" className="flex items-center gap-2">
+                  <IoStatsChart />
+                  Dashboard
+                </a>
+
                 <p className="">ALL BOARDS ({Object.keys(data).length})</p>
                 <div className="max-h-96 overflow-y-auto">
                   {Object.values(data).map((v, i) => (
@@ -77,7 +83,7 @@ const Navbar = ({ hideNav, setHideNav }) => {
                         id="MenuProjects"
                         className={`cursor-pointer flex items-center gap-2 px-2 py-1 my-1 border border-black hover:bg-gray-300 ${
                           location.pathname.split("/")[1] === v.id
-                            ? "bg-red-200"
+                            ? "bg-green-400"
                             : "bg-white"
                         }`}
                       >
@@ -90,10 +96,10 @@ const Navbar = ({ hideNav, setHideNav }) => {
                 {/* Create new Board */}
                 <li
                   id="MenuProjects"
-                  className="cursor-pointer w-full relative px-2"
+                  className="cursor-pointer w-full relative"
                 >
                   <div
-                    className="flex items-center gap-1 w-full"
+                    className="flex items-center gap-2 w-full px-2 py-1 rounded hover:bg-gray-200"
                     onClick={() => addNewProject()}
                   >
                     <AiFillFolderAdd />
@@ -108,6 +114,9 @@ const Navbar = ({ hideNav, setHideNav }) => {
               </>
             ) : (
               <div className="relative flex items-center flex-col gap-4 text-lg select-none">
+                <a href="/">
+                  <IoStatsChart />
+                </a>
                 <div className="border border-black p-2 flex flex-col gap-3">
                   <AiFillFolderOpen
                     onClick={() => setProjectList(!projectList)}
@@ -115,7 +124,7 @@ const Navbar = ({ hideNav, setHideNav }) => {
                   />
                   {projectList && (
                     <div
-                      className="absolute top-2 left-10 bg-gray-200 flex flex-col gap-1 text-base w-36 max-h-96 overflow-y-auto rounded"
+                      className="absolute top-2 left-10 bg-gray-200  flex flex-col gap-1 text-base w-36 max-h-96 overflow-y-auto rounded"
                       ref={ref}
                     >
                       {Object.values(data).map((v, i) => (
@@ -129,7 +138,7 @@ const Navbar = ({ hideNav, setHideNav }) => {
                             id="MenuProjects"
                             className={`cursor-pointer flex items-center gap-2 px-2 py-1 border border-black hover:bg-gray-300 ${
                               location.pathname.split("/")[1] === v.id
-                                ? "bg-red-200"
+                                ? "bg-green-400"
                                 : ""
                             }`}
                           >

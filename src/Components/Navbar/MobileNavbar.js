@@ -26,7 +26,7 @@ const MobileNavbar = ({ data, addNewProject, toggleTheme, setToggleTheme }) => {
             {showBoard ? <AiFillCaretUp /> : <AiFillCaretDown />}
           </div>
           <div
-            className={`absolute top-8 bg-gray-200 w-40 rounded transition-all ease-in-out duration-100 ${
+            className={`absolute top-8 bg-gray-200 max-h-96 overflow-y-auto  rounded transition-all ease-in-out duration-100 ${
               showBoard ? "translate-y-0 visible" : "-translate-y-1 invisible"
             }`}
           >
@@ -40,9 +40,7 @@ const MobileNavbar = ({ data, addNewProject, toggleTheme, setToggleTheme }) => {
                     onClick={() => setShowBoard(false)}
                   >
                     <AiFillFolderOpen />
-                    <div className="flex items-center justify-between w-full pr-2">
-                      <p className="flex">{v.title}</p>
-                    </div>
+                    <p className="flex">{v.title}</p>
                   </Link>
                 </div>
               </li>

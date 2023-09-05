@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 
 import PieComponent from "./PieComponent";
 import BarComponent from "./BarComponent";
@@ -29,6 +29,7 @@ const Chart = ({ chartData }) => {
 
   useEffect(() => {
     getStats();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chartData]);
 
   return (

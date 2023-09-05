@@ -3,7 +3,7 @@ import { Context } from "../context";
 import ChartGroup from "./Display/Projects/Charts/ChartGroup";
 
 const Dashboard = ({ hideNav }) => {
-  const [data, setData] = useContext(Context);
+  const [data] = useContext(Context);
   const [chartData, setChartData] = useState();
 
   // filter Projects to get minimalized data
@@ -52,6 +52,7 @@ const Dashboard = ({ hideNav }) => {
 
   useEffect(() => {
     DataFilter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (
