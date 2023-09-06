@@ -33,7 +33,7 @@ const Chart = ({ chartData }) => {
   }, [chartData]);
 
   return (
-    <div className="mx-3 gap-3 h-full lg:grid grid-rows-6 grid-cols-2 flex flex-col">
+    <div className="mx-3 gap-3 h-full lg:grid lg:grid-rows-6 lg:grid-cols-2 flex flex-col">
       <>
         {/* Simple Stats */}
         {taskStats && (
@@ -62,7 +62,7 @@ const Chart = ({ chartData }) => {
 
             {/* Charts */}
             <div className="bg-white rounded-lg flex items-center justify-center w-full h-full row-span-3">
-              {chartData.length > 0 ? (
+              {taskStats ? (
                 <PieComponent
                   getStats={[taskStats.completed, taskStats.open]}
                 />
@@ -70,7 +70,7 @@ const Chart = ({ chartData }) => {
                 <div>No Data to display.</div>
               )}
             </div>
-            <div className="bg-white w-full rounded-lg overflow-x-scroll row-span-3 col-span-2 flex items-center justify-center">
+            <div className="bg-red-200 w-full h-full rounded-lg  row-span-3 col-span-2 flex items-center justify-center">
               {chartData.length > 0 ? (
                 <BarComponent chartData={chartData} />
               ) : (

@@ -30,7 +30,7 @@ const renderCustomizedLabel = ({
 };
 const PieComponent = ({ getStats }) => {
   return (
-    <PieChart width={300} height={350}>
+    <PieChart width={250} height={350}>
       <Pie
         data={getStats}
         cx="50%"

@@ -34,7 +34,7 @@ const MobileNavbar = ({ data, addNewProject, toggleTheme, setToggleTheme }) => {
               <li className="cursor-pointer px-3" key={i}>
                 <div className={``}>
                   <Link
-                    to={`/${v.title}`}
+                    to={`/${v.id}`}
                     state={v}
                     className="flex items-center gap-2 w-full py-1 justify-start"
                     onClick={() => setShowBoard(false)}
