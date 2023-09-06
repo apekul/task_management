@@ -20,6 +20,9 @@ const Display = ({ hideNav }) => {
   const [title, setTitle] = useState(project.title);
   const [options, setOptions] = useState(false);
 
+  // Confirm delete
+  const [confirmPanel, setConfirmPanel] = useState(false);
+
   const navigate = useNavigate();
 
   const addColumn = () => {
@@ -131,7 +134,7 @@ const Display = ({ hideNav }) => {
                 !options && "hidden"
               }`}
             >
-              <div className="flex flex-col items-start justify-center gap-2">
+              <div className="flex flex-col items-start justify-center gap-2 relative">
                 <div className="flex w-full items-center justify-between">
                   <span>Settings</span>
                   <AiFillCloseCircle
@@ -140,12 +143,35 @@ const Display = ({ hideNav }) => {
                   />
                 </div>
                 <div
-                  className="flex items-center gap-1 bg-red-200 w-full p-1 rounded hover:bg-red-400 cursor-pointer"
-                  onClick={() => deleteProject()}
+                  className="flex items-center gap-1 bg-red-200 w-full p-1 rounded hover:bg-red-400 cursor-pointer "
+                  // onClick={() => deleteProject()}
+                  onClick={() => setConfirmPanel(!confirmPanel)}
                 >
                   <AiFillDelete className="text-base" />
                   <p className="truncate w-4/5">Delete {project.title}</p>
                 </div>
+                {/* Confirm Delete */}
+                {confirmPanel && (
+                  <div className="bg-white text-md absolute p-1 top-8 right-0 w-full flex items-center justify-center gap-1">
+                    <p className="text-xs">Are you sure?</p>
+                    <button
+                      className="bg-gray-200 px-1 rounded hover:bg-red-400"
+                      onClick={() => {
+                        deleteProject();
+                        setConfirmPanel(false);
+                        return;
+                      }}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="bg-gray-200 px-1 rounded hover:bg-gray-300"
+                      onClick={() => setConfirmPanel(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

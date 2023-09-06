@@ -11,7 +11,6 @@ import { Context } from "../../context";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import MobileNavbar from "./MobileNavbar";
 import { RiMoonFill, RiSunFill } from "react-icons/ri";
-import { template } from "../../fakeData";
 
 const Navbar = ({ hideNav, setHideNav }) => {
   const [data, setData] = useContext(Context);
@@ -24,15 +23,66 @@ const Navbar = ({ hideNav, setHideNav }) => {
   const location = useLocation();
 
   const addNewProject = () => {
+    let projectTemplate = {
+      id: "",
+      title: "",
+      description: "",
+      tasks: {},
+      columns: {},
+      columnOrder: [],
+    };
     let newID;
+    let maxColID;
+    let newColIDs;
+
     if (Object.keys(data).length === 0) {
       newID = "project-1";
+      maxColID = 0;
     } else {
       newID = `project-${
         Math.max(...Object.keys(data).map((v) => +v.split("-")[1])) + 1
       }`;
+      // Gets highest column ID number
+      maxColID = Math.max(
+        ...Object.values(data)
+          .map((v, i) =>
+            Object.values(v.columns).map((col) => +col.id.split("-")[1])
+          )
+          .flat()
+      );
     }
-    let newProject = { ...template, id: newID, title: newID };
+
+    // Create 3 id for columns
+    newColIDs = Array.from(
+      { length: 3 },
+      (v, i) => `column-${maxColID + i + 1}`
+    );
+
+    let templateCols = {
+      [newColIDs[0]]: {
+        id: newColIDs[0],
+        title: "todo",
+        taskIDs: [],
+      },
+      [newColIDs[1]]: {
+        id: newColIDs[1],
+        title: "doing",
+        taskIDs: [],
+      },
+      [newColIDs[2]]: {
+        id: newColIDs[2],
+        title: "done",
+        taskIDs: [],
+      },
+    };
+
+    let newProject = {
+      ...projectTemplate,
+      id: newID,
+      title: newID,
+      columns: templateCols,
+      columnOrder: newColIDs,
+    };
 
     setData((prev) => ({ ...prev, [newID]: newProject }));
     return navigate(`/${newID}`);
@@ -99,7 +149,7 @@ const Navbar = ({ hideNav, setHideNav }) => {
                   className="cursor-pointer w-full relative"
                 >
                   <div
-                    className="flex items-center gap-2 w-full px-2 py-1 rounded hover:bg-gray-200"
+                    className="flex items-center gap-2 px-2 w-full py-1 rounded hover:bg-gray-200"
                     onClick={() => addNewProject()}
                   >
                     <AiFillFolderAdd />

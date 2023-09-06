@@ -16,6 +16,9 @@ export const Frame = ({ ...props }) => {
   const [editTitle, setEditTitle] = useState();
   const [title, setTitle] = useState(props.column.title);
 
+  // Confirm delete
+  const [confirmPanel, setConfirmPanel] = useState(false);
+
   // Add new task to TODO list
   const addTask = () => {
     let flated = Object.values(props.project.tasks).map((v) => v);
@@ -67,7 +70,10 @@ export const Frame = ({ ...props }) => {
   const updateColumnName = () => {
     props.setProject((prev) => ({
       ...prev,
-      title: title,
+      columns: {
+        ...prev.columns,
+        [props.column.id]: { ...prev.columns[props.column.id], title: title },
+      },
     }));
     return setEditTitle();
   };
@@ -136,11 +142,38 @@ export const Frame = ({ ...props }) => {
                 <div className="bg-white border-b border-r border-l border-black absolute top-12 -right-0 w-52 px-2 py-1 text-start">
                   <button
                     className="flex items-center gap-1 bg-red-200 px-2 w-full rounded hover:bg-red-300 truncate"
-                    onClick={deleteColumn}
+                    // onClick={deleteColumn}
+                    onClick={() => setConfirmPanel(true)}
                   >
                     <AiFillDelete />
                     <p>Delete {props.column.title.toUpperCase()}</p>
                   </button>
+                  {/* Confirm Delete */}
+                  {confirmPanel && (
+                    <div className="bg-white text-md absolute p-1 top-0 right-0 w-full flex items-center justify-center gap-1">
+                      <p className="text-xs">Are you sure?</p>
+                      <button
+                        className="bg-gray-200 px-1 rounded hover:bg-red-400"
+                        onClick={() => {
+                          deleteColumn();
+                          setConfirmPanel(false);
+                          return;
+                        }}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        className="bg-gray-200 px-1 rounded hover:bg-gray-300"
+                        onClick={() => {
+                          setConfirmPanel(false);
+                          setShow();
+                          return;
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

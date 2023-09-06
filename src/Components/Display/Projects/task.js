@@ -12,7 +12,6 @@ import {
   AiFillCloseCircle,
   AiFillDelete,
 } from "react-icons/ai";
-import { FaExchangeAlt } from "react-icons/fa";
 
 const Task = ({ ...props }) => {
   const location = useLocation();
@@ -25,6 +24,9 @@ const Task = ({ ...props }) => {
   });
   const [title, setTitle] = useState(props.task.title);
   const [content, setContent] = useState(props.task.content);
+
+  // Confirm delete
+  const [confirmPanel, setConfirmPanel] = useState(false);
 
   const subTaskStatus = {
     completed: Object.keys(props.task.subTasks)
@@ -212,16 +214,38 @@ const Task = ({ ...props }) => {
                     </div>
 
                     {/* Task buttons */}
-                    <div className="flex gap-2 justify-end mt-2">
+                    <div className="flex justify-end py-1 relative">
                       <button
                         className="text-gray-400 hover:text-red-500"
-                        onClick={deleteTask}
+                        onClick={() => setConfirmPanel(true)}
                       >
                         <AiFillDelete className="text-lg" />
                       </button>
-                      <button className="text-gray-400 hover:text-black">
-                        <FaExchangeAlt className="text-lg" />
-                      </button>
+
+                      {/*  */}
+                      {confirmPanel && (
+                        <div className=" text-base absolute bottom-0 right-0 flex items-center justify-center gap-1">
+                          <p className="text-xs">Are you sure?</p>
+                          <button
+                            className="bg-gray-200 px-1 rounded hover:bg-red-400"
+                            onClick={() => {
+                              deleteTask();
+                              setConfirmPanel(false);
+                              return;
+                            }}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            className="bg-gray-200 px-1 rounded hover:bg-gray-300"
+                            onClick={() => setConfirmPanel(false)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      )}
+
+                      {/*  */}
                     </div>
                   </div>
                 )}
