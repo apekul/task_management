@@ -14,3 +14,4 @@ https://stunning-mermaid-6e4b29.netlify.app
 ## Features
 - Add/Update/Remove Projects, tasks, subtask, Columns
 - Columns and tasks can be sorted using drag and drop functinalities
+- Dashboard with charts
