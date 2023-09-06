@@ -70,7 +70,7 @@ const Chart = ({ chartData }) => {
                 <div>No Data to display.</div>
               )}
             </div>
-            <div className="bg-red-200 w-full h-full rounded-lg  row-span-3 col-span-2 flex items-center justify-center">
+            <div className="bg-white w-full h-full rounded-lg  row-span-3 col-span-2 flex items-center justify-center">
               {chartData.length > 0 ? (
                 <BarComponent chartData={chartData} />
               ) : (
