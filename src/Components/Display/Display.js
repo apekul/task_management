@@ -26,27 +26,25 @@ const Display = ({ hideNav }) => {
   const navigate = useNavigate();
 
   const addColumn = () => {
-    let flated = Object.keys(project.columns).length;
-    let newID;
-    if (flated > 0) {
-      newID = `column-${
-        Math.max(
-          ...Object.values(project.columns).map((v) => +v.id.split("-")[1])
-        ) + 1
-      }`;
-    } else {
-      newID = "column-1";
-    }
+    let maxColID = Math.max(
+      ...Object.values(data)
+        .map((v, i) =>
+          Object.values(v.columns).map((col) => +col.id.split("-")[1])
+        )
+        .flat()
+    );
+    let newColID = `column-${maxColID + 1}`;
 
     let newColumn = {
-      id: newID,
-      title: newID,
+      id: newColID,
+      title: newColID,
       taskIDs: [],
     };
+
     setProject((prev) => ({
       ...prev,
-      columnOrder: [...prev.columnOrder, newID],
-      columns: { ...prev.columns, [newID]: newColumn },
+      columnOrder: [...prev.columnOrder, newColID],
+      columns: { ...prev.columns, [newColID]: newColumn },
     }));
     return;
   };
