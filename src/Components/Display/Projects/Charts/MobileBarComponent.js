@@ -21,6 +21,9 @@ const CustomXAxisTick = ({ x, y, payload }) => {
         y={y}
         textAnchor="middle"
         verticalAnchor="start"
+        // scaleToFit={true}
+        // minTickGap={-200}
+        // angle={-45}
       >
         {payload.value}
       </Text>
@@ -29,7 +32,7 @@ const CustomXAxisTick = ({ x, y, payload }) => {
   return null;
 };
 
-const BarComponent = ({ chartData }) => {
+const MobileBarComponent = ({ chartData }) => {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart
@@ -38,8 +41,8 @@ const BarComponent = ({ chartData }) => {
         data={chartData}
         margin={{
           top: 20,
-          right: 85,
-          left: 20,
+          right: 40,
+          // left: 20,
           bottom: 40,
         }}
       >
@@ -48,16 +51,15 @@ const BarComponent = ({ chartData }) => {
           dataKey="name"
           interval="preserveStart"
           tick={<CustomXAxisTick />}
-          minTickGap={20}
         />
         <YAxis />
         <Tooltip width={100} />
         <Brush
           dataKey="name"
           height={20}
-          endIndex={1}
           stroke="#8884d8"
           y={300}
+          endIndex={3}
         />
         <Bar dataKey="open" stackId="a" fill="#8884d8" />
         <Bar dataKey="completed" stackId="a" fill="#82ca9d" />
@@ -66,4 +68,4 @@ const BarComponent = ({ chartData }) => {
   );
 };
 
-export default BarComponent;
+export default MobileBarComponent;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import PieComponent from "./PieComponent";
 import BarComponent from "./BarComponent";
+import MobileBarComponent from "./MobileBarComponent";
 
 import { IoStatsChartSharp } from "react-icons/io5";
 
@@ -70,9 +71,16 @@ const Chart = ({ chartData }) => {
                 <div>No Data to display.</div>
               )}
             </div>
-            <div className="bg-white w-full h-full rounded-lg  row-span-3 col-span-2 flex items-center justify-center">
+            <div className="hidden bg-white w-full h-full rounded-lg  row-span-3 col-span-2 lg:flex items-center justify-center">
               {chartData.length > 0 ? (
                 <BarComponent chartData={chartData} />
+              ) : (
+                <div>No Data to display.</div>
+              )}
+            </div>
+            <div className="bg-white w-full h-full rounded-lg  row-span-3 col-span-2 flex lg:hidden items-center justify-center">
+              {chartData.length > 0 ? (
+                <MobileBarComponent chartData={chartData} />
               ) : (
                 <div>No Data to display.</div>
               )}
