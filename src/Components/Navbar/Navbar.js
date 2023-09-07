@@ -256,6 +256,7 @@ const Navbar = ({ hideNav, setHideNav }) => {
         addNewProject={addNewProject}
         toggleTheme={toggleTheme}
         setToggleTheme={setToggleTheme}
+        location={location.pathname.split("/")[1]}
       />
     </>
   );

@@ -83,7 +83,7 @@ const Display = ({ hideNav }) => {
   return (
     <>
       <div
-        className={`border-b-2 h-16 flex items-center justify-between w-full z-10 lg:fixed bg-white transition-all p-5 pt-20 lg:p-5 ${
+        className={`border-b-2 h-16 flex items-center justify-between w-full z-10 lg:fixed bg-white transition-all p-5 lg:p-5 ${
           hideNav ? "lg:pl-24" : "lg:pl-56"
         } `}
       >
@@ -121,7 +121,7 @@ const Display = ({ hideNav }) => {
             </>
           )}
         </div>
-        <div className="flex items-center gap-4 select-none ">
+        <div className="flex items-center gap-4 select-none">
           <div className="relative">
             <BiDotsVerticalRounded
               className="cursor-pointer"
@@ -175,7 +175,7 @@ const Display = ({ hideNav }) => {
           </div>
         </div>
       </div>
-      <div className={`transition-all ${hideNav ? "lg:pl-20" : "lg:pl-52"}`}>
+      <div className={`transition-all ${hideNav ? "lg:ml-20" : "lg:ml-52"}`}>
         <TaskList
           project={project}
           setProject={setProject}

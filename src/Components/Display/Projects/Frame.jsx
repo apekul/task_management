@@ -81,7 +81,7 @@ export const Frame = ({ ...props }) => {
     <Draggable draggableId={props.column.id} index={props.index}>
       {(provided, snapshot) => (
         <div
-          className={`sm:mx-2 mr-2 sm:min-w-[400px] min-w-full flex flex-col rounded relative bg-white border-black ${
+          className={`sm:mx-2 mr-2 sm:min-w-[400px] min-w-full flex flex-col rounded relative bg-white border-black  ${
             snapshot.isDragging && "border-dashed border-2"
           }`}
           {...provided.draggableProps}

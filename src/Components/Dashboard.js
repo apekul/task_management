@@ -58,7 +58,7 @@ const Dashboard = ({ hideNav }) => {
   return (
     <>
       <div
-        className={`border-b-2 flex items-center justify-between w-full lg:fixed bg-white transition-all p-5 pt-20 lg:p-5 ${
+        className={`border-b-2 flex items-center justify-between w-full lg:fixed bg-white transition-all p-5 lg:p-5 ${
           hideNav ? "lg:pl-24" : "lg:pl-56"
         } `}
       >
