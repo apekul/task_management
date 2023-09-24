@@ -3,7 +3,7 @@
 
 ## Demo
 
-https://stunning-mermaid-6e4b29.netlify.app
+<a href='https://stunning-mermaid-6e4b29.netlify.app'>Live Demo</a>
 
 ## Used
     React 16.13.1
