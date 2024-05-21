@@ -15,3 +15,5 @@
 - Add/Update/Remove Projects, tasks, subtask, Columns
 - Columns and tasks can be sorted using drag and drop functinalities
 - Dashboard with charts
+
+![taskmanagement](https://github.com/apekul/task_management/assets/22819317/d1438df4-b8b6-454a-8a18-1fb95acab447)
