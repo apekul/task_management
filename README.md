@@ -1,5 +1,5 @@
 # About
-   The task management application allows users to create projects and customize columns to organize tasks efficiently. Users can rearrange columns effortlessly using drag-and-drop functionality. Within each project, users can create, delete, and organize tasks within columns, moving them as needed. Tasks can be marked as completed, and users can also create and manage subtasks for detailed project tracking. This comprehensive functionality streamlines project management and enhances task organization.
+   The task management application provides users with the ability to create projects and customize columns for efficient organization. Users can rearrange columns effortlessly using drag-and-drop functionality. Within each project, users can create, delete, and organize tasks within columns, moving them as needed. Tasks can be marked as completed, and users can also create and manage subtasks for detailed project tracking. Additionally, the application offers basic charts that visualize completed tasks, providing users with valuable insights into project progress.
 
 ## Demo
 
